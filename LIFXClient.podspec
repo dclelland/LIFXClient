@@ -12,8 +12,8 @@ Pod::Spec.new do |s|
   s.license                 = { :type => 'MIT' }
   s.author                  = { "Daniel Clelland" => "daniel.clelland@gmail.com" }
   s.source                  = { :git => "https://github.com/dclelland/LIFXClient.git", :tag => "0.1.0" }
-  s.platform                = :ios, '11.0'
+  s.platform                = :ios, '12.0'
   s.swift_version           = '4.2'
-  s.ios.deployment_target   = '11.0'
+  s.ios.deployment_target   = '12.0'
   s.ios.source_files        = 'Sources/**/*.swift'
 end
