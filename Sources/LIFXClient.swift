@@ -31,13 +31,64 @@ public struct LIFXClient {
     }
     
     public func send() {
-        connection.send(content: Data(bytes: [0x31, 0x00, 0x00, 0x34, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x66, 0x00, 0x00, 0x00, 0x00, 0x55, 0x55, 0xFF, 0xFF, 0xFF, 0xFF, 0xAC, 0x0D, 0x00, 0x04, 0x00, 0x00]), completion: .contentProcessed { error in
-            print("SENT", error)
-        })
-        
-        connection.receiveMessage { (content, context, isComplete, error) in
-            print("RECEIVED", content, context, isComplete, error)
-        }
+        let bytes: [UInt8] = [
+            0b0011_0001, // 0x31
+            0b0000_0000,
+            0b0000_0000,
+            0b0011_0100, // 0x34
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0110_0110, // 0x66,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0000_0000,
+            0b0101_0101, // 0x55
+            0b0101_0101, // 0x55
+            0b1111_1111, // 0xFF,
+            0b1111_1111, // 0xFF,
+            0b1111_1111, // 0xFF,
+            0b1111_1111, // 0xFF,
+            0b1010_1100, // 0xAC,
+            0b0000_1101, // 0x0D,
+            0b0000_0000,
+            0b0000_0100, // 0x04
+            0b0000_0000,
+            0b0000_0000
+        ]
+//        connection.send(content: Data(bytes: bytes), completion: .contentProcessed { error in
+//            print("SENT", error)
+//        })
+//
+//        connection.receiveMessage { (content, context, isComplete, error) in
+//            print("RECEIVED", content, context, isComplete, error)
+//        }
     }
     
 }
