@@ -6,3 +6,16 @@
 //
 
 import Foundation
+import Network
+
+public struct LIFXClient {
+    
+    public init() {
+        
+    }
+    
+    public func connect() {
+        
+    }
+    
+}
