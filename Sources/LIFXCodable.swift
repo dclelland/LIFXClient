@@ -9,20 +9,56 @@ import Foundation
 
 public typealias LIFXCodable = LIFXEncodable & LIFXDecodable
 
-public class LIFXEncoder {
+public class LIFXEncoder: Encoder {
     
-    enum Error: Swift.Error {
+    public enum Error: Swift.Error {
+        
+        case keyedContainerUnavailable
+        case unkeyedContainerUnavailable
+        case singleValueContainerUnavailable
         
     }
     
-    fileprivate var data = Data()
+    public var codingPath: [CodingKey] = []
     
-    public init() {
-        
+    public var userInfo: [CodingUserInfoKey: Any] = [:]
+    
+    public func container<Key>(keyedBy type: Key.Type) -> KeyedEncodingContainer<Key> where Key : CodingKey {
+        throw Error.keyedContainerUnavailable
     }
+    
+    public func unkeyedContainer() -> UnkeyedEncodingContainer {
+        throw Error.unkeyedContainerUnavailable
+    }
+    
+    public func singleValueContainer() -> SingleValueEncodingContainer {
+        throw Error.singleValueContainerUnavailable
+    }
+    
+}
+
+extension LIFXEncoder {
     
     public func encode<T: LIFXEncodable>(_ value: T) throws -> Data {
         fatalError()
+    }
+    
+    public struct Container {
+        
+        fileprivate var data: Data
+        
+        public init(data: Data = Data()) {
+            self.data = data
+        }
+        
+    }
+    
+}
+
+extension LIFXEncoder {
+    
+    public func encode<T: LIFXEncodable>(_ value: T) throws {
+        
     }
     
 }
@@ -33,20 +69,30 @@ public protocol LIFXEncodable {
     
 }
 
-public class LIFXDecoder {
+public class LIFXDecoder: Decoder {
     
-    enum Error: Swift.Error {
+    public enum Error: Swift.Error {
+        
+        case keyedContainerUnavailable
+        case unkeyedContainerUnavailable
+        case singleValueContainerUnavailable
         
     }
     
-    fileprivate var data: Data
+    public var codingPath: [CodingKey] = []
     
-    public init(data: Data) {
-        self.data = data
+    public var userInfo: [CodingUserInfoKey: Any] = [:]
+    
+    public func container<Key>(keyedBy type: Key.Type) throws -> KeyedDecodingContainer<Key> where Key : CodingKey {
+        throw Error.keyedContainerUnavailable
     }
     
-    public func decode<T: LIFXDecodable>(_ type: T.Type) throws -> T {
-        fatalError()
+    public func unkeyedContainer() throws -> UnkeyedDecodingContainer {
+        throw Error.unkeyedContainerUnavailable
+    }
+    
+    public func singleValueContainer() throws -> SingleValueDecodingContainer {
+        throw Error.singleValueContainerUnavailable
     }
     
 }
