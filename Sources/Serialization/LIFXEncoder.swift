@@ -7,12 +7,6 @@
 
 import Foundation
 
-//public protocol LIFXEncodable: Encodable {
-//
-//    func encode(to encoder: LIFXEncoder) throws
-//
-//}
-
 public class LIFXEncoder {
     
     fileprivate var data: [UInt8] = []

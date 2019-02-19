@@ -7,12 +7,6 @@
 
 import Foundation
 
-//public protocol LIFXDecodable: Encodable {
-//
-//    init(from decoder: LIFXDecoder) throws
-//
-//}
-
 public class LIFXDecoder {
     
     fileprivate let data: Data
