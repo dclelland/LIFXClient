@@ -180,15 +180,17 @@ public struct LIFXClient {
 //        let bytes: [UInt8] = [0x24, 0x00, 0x00, 0x34, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x65, 0x00, 0x00, 0x00]
         
         
-//        let data = try! LIFXEncoder().encode(Device.GetService())
+        let data = try! LIFXEncoder().encode(Device.GetService())
         
-        connection.send(content: Data(bytes: bytes), completion: .contentProcessed { error in
-            print("SENT", error?.localizedDescription ?? "completed")
-        })
-
-        connection.receiveMessage { (content, context, isComplete, error) in
-            print("RECEIVED", content, context, isComplete, error)
-        }
+        print("DATA", data)
+        
+//        connection.send(content: Data(bytes: bytes), completion: .contentProcessed { error in
+//            print("SENT", error?.localizedDescription ?? "completed")
+//        })
+//
+//        connection.receiveMessage { (content, context, isComplete, error) in
+//            print("RECEIVED", content, context, isComplete, error)
+//        }
     }
     
 }
