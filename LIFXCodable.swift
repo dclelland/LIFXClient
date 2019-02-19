@@ -11,15 +11,15 @@ public typealias LIFXCodable = LIFXEncodable & LIFXDecodable
 
 public class LIFXEncoder {
     
+    enum Error: Swift.Error {
+        
+    }
+    
+    fileprivate var data: [UInt8] = []
+    
     public func encode<T: LIFXEncodable>(_ value: T) throws -> Data {
         fatalError()
     }
-    
-}
-
-extension LIFXEncoder {
-    
-    
     
 }
 
@@ -30,6 +30,10 @@ public protocol LIFXEncodable {
 }
 
 public class LIFXDecoder {
+    
+    enum Error: Swift.Error {
+        
+    }
     
     public func decode<T: LIFXDecodable>(_ type: T.Type, from data: Data) throws -> T {
         fatalError()

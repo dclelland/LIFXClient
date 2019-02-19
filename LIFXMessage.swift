@@ -27,13 +27,9 @@ public struct Device {
 
 extension Device {
 
-    public struct GetService: LIFXMessage, LIFXEncodable {
+    public struct GetService: LIFXMessage {
         
         public static let messageType: UInt16 = 2
-        
-        public func encode(to encoder: LIFXEncoder) throws {
-            return
-        }
         
     }
 
