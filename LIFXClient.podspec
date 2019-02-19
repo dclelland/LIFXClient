@@ -14,6 +14,10 @@ Pod::Spec.new do |s|
   s.source                  = { :git => "https://github.com/dclelland/LIFXClient.git", :tag => "0.1.0" }
   s.platform                = :ios, '12.0'
   s.swift_version           = '4.2'
+  
   s.ios.deployment_target   = '12.0'
   s.ios.source_files        = 'Sources/**/*.swift'
+  
+  s.osx.deployment_target   = '10.14'
+  s.osx.source_files        = 'Sources/**/*.swift'
 end
