@@ -15,7 +15,11 @@ public class LIFXEncoder {
         
     }
     
-    fileprivate var data: [UInt8] = []
+    fileprivate var data = Data()
+    
+    public init() {
+        
+    }
     
     public func encode<T: LIFXEncodable>(_ value: T) throws -> Data {
         fatalError()
@@ -35,7 +39,13 @@ public class LIFXDecoder {
         
     }
     
-    public func decode<T: LIFXDecodable>(_ type: T.Type, from data: Data) throws -> T {
+    fileprivate var data: Data
+    
+    public init(data: Data) {
+        self.data = data
+    }
+    
+    public func decode<T: LIFXDecodable>(_ type: T.Type) throws -> T {
         fatalError()
     }
     
