@@ -9,9 +9,19 @@ import Foundation
 
 public class LIFXEncoder {
     
-    fileprivate var data: [UInt8] = []
+    fileprivate var data: Data = Data()
     
     public init() {}
+    
+}
+
+extension LIFXEncoder {
+    
+    public static func encode(_ value: Encodable) throws -> Data {
+        let encoder = LIFXEncoder()
+        try value.encode(to: encoder)
+        return encoder.data
+    }
     
 }
 

@@ -7,8 +7,6 @@
 
 import Foundation
 
-//public protocol LIFXDecodable: Encodable {
-//
-//    init(from decoder: LIFXDecoder) throws
-//
-//}
+public protocol LIFXDecodable: Decodable {
+
+}
