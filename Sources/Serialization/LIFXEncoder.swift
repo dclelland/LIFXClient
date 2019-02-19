@@ -29,8 +29,22 @@ extension LIFXEncoder {
         
     }
     
-    internal func encode(_ encodable: Encodable) throws {
-        fatalError("Implement me")
+    internal func encode(_ value: Encodable) throws {
+        switch value {
+        case let value as LIFXEncodable:
+            print("ENCODE", type(of: value), value)
+            try value.encode(to: self)
+        default:
+            print("APPEND", type(of: value), value)
+            appendBytes(of: value)
+        }
+    }
+    
+    internal func appendBytes<T>(of value: T) {
+        var target = value
+        withUnsafeBytes(of: &target) {
+            data.append(contentsOf: $0)
+        }
     }
     
 }

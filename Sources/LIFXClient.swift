@@ -183,7 +183,7 @@ public struct LIFXClient {
         
         let data = try! LIFXEncoder.encode(Light.SetColor(reserved: 0, color: Light.HSBK(hue: 0x5555, saturation: 0xFFFF, brightness: 0xFFFF, kelvin: 0x0DAC), duration: 1024))
         
-        print("DATA", data)
+        print("DATA", [UInt8](data))
         
 //        connection.send(content: Data(bytes: bytes), completion: .contentProcessed { error in
 //            print("SENT", error?.localizedDescription ?? "completed")
