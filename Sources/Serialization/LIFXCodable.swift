@@ -7,4 +7,4 @@
 
 import Foundation
 
-public typealias LIFXCodable = LIFXEncodable & LIFXDecodable
+public typealias LIFXCodable = LIFXDecodable & LIFXEncodable

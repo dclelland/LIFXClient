@@ -7,14 +7,30 @@
 
 import Foundation
 
-public struct LIFXPacket {
+public struct LIFXPacket<Message: LIFXMessage> {
     
-    static func decode(_ bytes: [UInt8]) -> LIFXPacket {
-        fatalError()
+    public var message: Message
+    
+    public init(message: Message) {
+        self.message = message
     }
     
-    func encode() -> [UInt8] {
-        return []
+}
+
+extension LIFXPacket: Decodable, LIFXDecodable where Message: LIFXDecodable {
+    
+    public init(from decoder: Decoder) throws {
+        var container = try decoder.unkeyedContainer()
+        message = try container.decode(Message.self)
+    }
+    
+}
+
+extension LIFXPacket: Encodable, LIFXEncodable where Message: LIFXEncodable {
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.unkeyedContainer()
+        try container.encode(message)
     }
     
 }
