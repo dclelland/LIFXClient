@@ -451,6 +451,13 @@ public struct Light {
         
         public var kelvin: UInt16
         
+        public init(hue: UInt16, saturation: UInt16, brightness: UInt16, kelvin: UInt16) {
+            self.hue = hue
+            self.saturation = saturation
+            self.brightness = brightness
+            self.kelvin = kelvin
+        }
+        
         public init(from decoder: Decoder) throws {
             var container = try decoder.unkeyedContainer()
             hue = try container.decode(UInt16.self)
