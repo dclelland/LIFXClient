@@ -35,15 +35,17 @@ extension LIFXEncoder {
             print("ENCODE", type(of: value), value)
             try value.encode(to: self)
         default:
-            print("APPEND", type(of: value), value)
             appendBytes(of: value)
         }
     }
     
     internal func appendBytes<T>(of value: T) {
         var target = value
-        withUnsafeBytes(of: &target) {
-            data.append(contentsOf: $0)
+        withUnsafeBytes(of: &target) { pointer in
+            var test = Data()
+            test.append(contentsOf: pointer)
+            print("APPEND", type(of: value), value, [UInt8](test))
+            data.append(contentsOf: pointer)
         }
     }
     
