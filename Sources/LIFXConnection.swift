@@ -24,8 +24,8 @@ public class LIFXConnection {
 
 extension LIFXConnection {
     
-    public class func connect<Connection: LIFXConnection>(host: NWEndpoint.Host = .ipv4(.broadcast), queue: DispatchQueue = DispatchQueue(label: "LIFX Queue"), source: UInt32 = 0) -> Promise<Connection> {
-        return NWConnection(host: host, port: 56700, using: .udp).connect(queue: queue).map { connection in
+    public class func connect<Connection: LIFXConnection>(host: NWEndpoint.Host = .ipv4(.broadcast), port: NWEndpoint.Port = 56700, queue: DispatchQueue = DispatchQueue(label: "LIFX Queue"), source: UInt32 = 0) -> Promise<Connection> {
+        return NWConnection(host: host, port: port, using: .udp).connect(queue: queue).map { connection in
             return Connection(connection: connection, source: source)
         }
     }
