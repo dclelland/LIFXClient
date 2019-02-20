@@ -13,6 +13,18 @@ public protocol LIFXDecodable {
     
 }
 
+extension LIFXDecodable where Self: RawRepresentable, Self.RawValue: LIFXDecodable {
+    
+    public init(from decoder: LIFXDecoder) throws {
+        guard let value = Self(rawValue: try RawValue(from: decoder)) else {
+            throw LIFXDecoder.Error.dataCorrupted("Invalid raw value while decoding RawRepresentable")
+        }
+        
+        self = value
+    }
+    
+}
+
 extension Bool: LIFXDecodable {
     
     public init(from decoder: LIFXDecoder) throws {

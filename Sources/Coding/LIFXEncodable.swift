@@ -13,6 +13,14 @@ public protocol LIFXEncodable {
 
 }
 
+extension LIFXEncodable where Self: RawRepresentable, Self.RawValue: LIFXEncodable {
+    
+    public func encode(to encoder: LIFXEncoder) throws {
+        try rawValue.encode(to: encoder)
+    }
+    
+}
+
 extension Bool: LIFXEncodable {
     
     public func encode(to encoder: LIFXEncoder) throws {

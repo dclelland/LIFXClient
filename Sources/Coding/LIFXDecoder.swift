@@ -47,6 +47,15 @@ extension LIFXDecoder {
     
 }
 
+extension LIFXDecoder {
+    
+    public enum Error: Swift.Error {
+        
+        case dataCorrupted(_ message: String)
+        
+    }
+    
+}
 
 extension LIFXDecoder {
     
