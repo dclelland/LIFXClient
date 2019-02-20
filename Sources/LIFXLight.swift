@@ -270,7 +270,7 @@ extension LIFXLight {
         )
     }
     
-    public func setWaveformOptional(transient: Bool = false, color: UIColor, kelvin: UInt16 = HSBK.neutralKelvin, period: UInt32, cycles: Float32 = .infinity, skewRatio: Int16 = 0, waveform: Waveform, setHue: Bool, setSaturation: Bool, setBrightness: Bool, setKelvin: Bool) -> Promise<State> {
+    public func setWaveformOptional(transient: Bool = false, color: UIColor, kelvin: UInt16 = HSBK.neutralKelvin, period: UInt32, cycles: Float32 = .infinity, skewRatio: Int16 = 0, waveform: Waveform, setHue: Bool = false, setSaturation: Bool = false, setBrightness: Bool = false, setKelvin: Bool = false) -> Promise<State> {
         return requestMessage(
             SetWaveformOptional(
                 transient: transient,
