@@ -17,3 +17,4 @@ Documentation: https://lan.developer.lifx.com
 - Set up readme and publish
 - macOS compatibility
     - Will need Color typealias for NSColor
+- Add documentation and publish release
