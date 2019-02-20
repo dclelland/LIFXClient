@@ -41,59 +41,21 @@ public struct LIFXClient {
 
 extension LIFXClient {
     
-    public func send(_ data: Data) -> Promise<Void> {
-        return Promise { resolver in
-            self.connection.send(content: data, completion: .contentProcessed { error in
-                switch error {
-                case .none:
-                    resolver.fulfill(())
-                case .some(let error):
-                    resolver.reject(error)
-                }
-            })
-        }
-    }
-    
-    public func receive() -> Promise<Data> {
-        return Promise { resolver in
-            self.connection.receiveMessage { (data, context, isComplete, error) in
-                switch (data, error) {
-                case (.some(let data), _):
-                    resolver.fulfill(data)
-                case (_, .some(let error)):
-                    resolver.reject(error)
-                default:
-                    fatalError("Invalid response")
-                }
-            }
-        }
-    }
-    
-    public func request(_ data: Data) -> Promise<Data> {
-        return when(fulfilled: send(data), receive()).map { _, data in
-            return data
-        }
-    }
-    
-}
-
-extension LIFXClient {
-    
     public func send<Request: LIFXEncodableMessage>(_ packet: LIFXPacket<Request>) -> Promise<Void> {
         return firstly {
-            return send(try LIFXEncoder.encode(packet))
+            return connection.send(try LIFXEncoder.encode(packet))
         }
     }
     
     public func receive<Response: LIFXDecodableMessage>(_ type: Response.Type) -> Promise<LIFXPacket<Response>> {
-        return receive().map { data in
+        return connection.receive().map { data in
             return try LIFXDecoder.decode(LIFXPacket<Response>.self, data: data)
         }
     }
     
     public func request<Request: LIFXEncodableMessage, Response: LIFXDecodableMessage>(_ packet: LIFXPacket<Request>) -> Promise<LIFXPacket<Response>> {
         return firstly {
-            return request(try LIFXEncoder.encode(packet))
+            return connection.request(try LIFXEncoder.encode(packet))
         }.map { data in
             return try LIFXDecoder.decode(LIFXPacket<Response>.self, data: data)
         }
