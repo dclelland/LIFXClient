@@ -23,8 +23,34 @@ extension LIFXDecoder {
     
     public enum Error: Swift.Error {
         
-        case dataCorrupted(_ message: String)
+        case invalidBool
+        case invalidRawValue
+        case invalidString
+        case endOfData
         
+    }
+    
+}
+
+extension LIFXDecoder {
+    
+    internal func read(bytes: Int) throws -> Data {
+        guard cursor + bytes <= data.count else {
+            throw Error.endOfData
+        }
+        
+        defer {
+            cursor += bytes
+        }
+        
+        return data[cursor..<(cursor + bytes)]
+    }
+    
+    internal func read<T>(_ type: T.Type) throws -> T {
+        let data = try read(bytes: MemoryLayout<T>.size)
+        return data.withUnsafeBytes { pointer in
+            return pointer.pointee
+        }
     }
     
 }
@@ -48,16 +74,16 @@ extension LIFXDecoder {
 extension LIFXDecoder {
     
     internal func decodeData(bytes: Int) throws -> Data {
-        fatalError("Implement me")
+        return try read(bytes: bytes)
     }
     
     internal func decodeEmpty(bytes: Int) throws {
-        _ = try decodeData(bytes: bytes)
+        _ = try read(bytes: bytes)
     }
     
     internal func decodeString(bytes: Int) throws -> String {
-        guard let string = String(bytes: try decodeData(bytes: bytes), encoding: .utf8) else {
-            throw Error.dataCorrupted("Invalid string")
+        guard let string = String(bytes: try read(bytes: bytes), encoding: .utf8) else {
+            throw Error.invalidString
         }
         
         return string
@@ -74,6 +100,10 @@ extension LIFXDecoder {
     public struct Container {
         
         internal var decoder: LIFXDecoder
+        
+        mutating func read<T>(_ value: T.Type) throws -> T {
+            return try decoder.read(value)
+        }
         
         mutating func decode<T: LIFXDecodable>(_ type: T.Type) throws -> T {
             return try decoder.decode(type)

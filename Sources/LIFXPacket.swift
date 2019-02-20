@@ -28,8 +28,23 @@ public struct LIFXPacket<Message: LIFXMessage> {
 
 extension LIFXPacket {
     
-    private static var size: UInt16 {
-        return 36 + Message.messageSize
+    private static var packetSize: UInt16 {
+        return Message.messageSize + 36
+    }
+    
+    private static var messageType: UInt16 {
+        return Message.messageType
+    }
+    
+}
+
+extension LIFXPacket {
+    
+    public enum Error: Swift.Error {
+        
+        case incorrectPacketSize(expected: UInt16, received: UInt16)
+        case incorrectMessageType(expected: UInt16, received: UInt16)
+        
     }
     
 }
@@ -40,7 +55,8 @@ extension LIFXPacket: LIFXDecodable where Message: LIFXDecodable {
         var container = decoder.container()
         
         // Frame
-        guard try container.decode(UInt16.self) == LIFXPacket.size else { throw LIFXDecoder.Error.dataCorrupted("Invalid packet size") }
+        let size = try container.decode(UInt16.self)
+        guard size == LIFXPacket.packetSize else { throw Error.incorrectPacketSize(expected: LIFXPacket.packetSize, received: size) }
         _ = try container.decode(UInt16.self)
         source = try container.decode(UInt32.self)
         
@@ -52,7 +68,8 @@ extension LIFXPacket: LIFXDecodable where Message: LIFXDecodable {
         
         // Protocol header
         try container.decodeEmpty(bytes: 8)
-        guard try container.decode(UInt16.self) == Message.messageType else { throw LIFXDecoder.Error.dataCorrupted("Invalid message type") }
+        let type = try container.decode(UInt16.self)
+        guard type == Message.messageType else { throw Error.incorrectMessageType(expected: LIFXPacket.messageType, received: type) }
         try container.decodeEmpty(bytes: 2)
         
         // Payload
@@ -67,7 +84,7 @@ extension LIFXPacket: LIFXEncodable where Message: LIFXEncodable {
         var container = encoder.container()
         
         // Frame
-        try container.encode(LIFXPacket.size)
+        try container.encode(LIFXPacket.packetSize)
         try container.encode(UInt16(0b0011_0100_0000_0000)) // Come back to this: origin, tagged, addressable, protocol
         try container.encode(source)
         
@@ -79,7 +96,7 @@ extension LIFXPacket: LIFXEncodable where Message: LIFXEncodable {
         
         // Protocol header
         try container.encodeEmpty(bytes: 8)
-        try container.encode(Message.messageType)
+        try container.encode(LIFXPacket.messageType)
         try container.encodeEmpty(bytes: 2)
         
         // Payload
@@ -87,71 +104,3 @@ extension LIFXPacket: LIFXEncodable where Message: LIFXEncodable {
     }
     
 }
-
-//        let bytes: [UInt8] = [
-//            // Frame
-//            0b0011_0001, // size: 16, 0x31
-//            0b0000_0000, // size
-//            0b0000_0000, // protocol
-//            0b0011_0100, // (origin: 2, tagged: 1, addressable: 1, protocol: 12), 0x34
-//
-//            0b0000_0000, // source
-//            0b0000_0000, // source
-//            0b0000_0000, // source
-//            0b0000_0000, // source
-//
-//            // Frame address
-//            0b0000_0000, // target
-//            0b0000_0000, // target
-//            0b0000_0000, // target
-//            0b0000_0000, // target
-//
-//            0b0000_0000, // target
-//            0b0000_0000, // target
-//            0b0000_0000, // target
-//            0b0000_0000, // target
-//
-//            0b0000_0000, // reserved
-//            0b0000_0000, // reserved
-//            0b0000_0000, // reserved
-//            0b0000_0000, // reserved
-//
-//            0b0000_0000, // reserved
-//            0b0000_0000, // reserved
-//            0b0000_0000, // more reserved, ack_required, res_required
-//            0b0000_0000, // sequence
-//
-//            // Protocol header
-//            0b0000_0000, // reserved
-//            0b0000_0000, // reserved
-//            0b0000_0000, // reserved
-//            0b0000_0000, // reserved
-//
-//            0b0000_0000, // reserved
-//            0b0000_0000, // reserved
-//            0b0000_0000, // reserved
-//            0b0000_0000, // reserved
-//
-//            0b0110_0110, // type (0x66, little endian),
-//            0b0000_0000, // type
-//            0b0000_0000, // reserved
-//            0b0000_0000, // reserved
-//
-//            // Payload
-//            0b0000_0000, // reserved
-//            0b0101_0101, // 0x55 // hue
-//            0b0101_0101, // 0x55 // hue
-//            0b1111_1111, // 0xFF, // saturation
-//
-//            0b1111_1111, // 0xFF, // saturation
-//            0b1111_1111, // 0xFF, // brightness
-//            0b1111_1111, // 0xFF, // brightness
-//            0b1010_1100, // 0xAC, // 3500 kelvin
-//
-//            0b0000_1101, // 0x0D, // 3500 kelvin
-//            0b0000_0000, // 0x00 // 1024 ms
-//            0b0000_0100, // 0x04 // 1024 ms
-//            0b0000_0000, // 0x00 // 1024 ms
-//
-//            0b0000_0000 // 0x00 // 1024 ms
-//        ]

@@ -48,8 +48,16 @@ public struct LIFXClient {
         })
 
         connection.receiveMessage { (content, context, isComplete, error) in
-            print("RECEIVED", [UInt8](content!))
-            print("RECEIVED", try! LIFXDecoder.decode(LIFXPacket<Device.StateService>.self, data: content!))
+            guard let content = content else {
+                return
+            }
+            
+            do {
+                print("RECEIVED", [UInt8](content))
+                print("RECEIVED", try LIFXDecoder.decode(LIFXPacket<Device.StateService>.self, data: content))
+            } catch let error {
+                print(error)
+            }
         }
     }
     
