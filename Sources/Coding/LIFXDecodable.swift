@@ -25,17 +25,10 @@ extension LIFXDecodable where Self: RawRepresentable, Self.RawValue: LIFXDecodab
     
 }
 
-extension Bool: LIFXDecodable {
-    
-    public init(from decoder: LIFXDecoder) throws {
-        fatalError()
-    }
-    
-}
-
 extension UInt8: LIFXDecodable {
     
     public init(from decoder: LIFXDecoder) throws {
+        var container = decoder.container()
         fatalError()
     }
     
@@ -44,6 +37,7 @@ extension UInt8: LIFXDecodable {
 extension Int8: LIFXDecodable {
     
     public init(from decoder: LIFXDecoder) throws {
+        var container = decoder.container()
         fatalError()
     }
     
@@ -52,6 +46,7 @@ extension Int8: LIFXDecodable {
 extension UInt16: LIFXDecodable {
     
     public init(from decoder: LIFXDecoder) throws {
+        var container = decoder.container()
         fatalError()
     }
     
@@ -60,6 +55,7 @@ extension UInt16: LIFXDecodable {
 extension Int16: LIFXDecodable {
     
     public init(from decoder: LIFXDecoder) throws {
+        var container = decoder.container()
         fatalError()
     }
     
@@ -68,6 +64,7 @@ extension Int16: LIFXDecodable {
 extension UInt32: LIFXDecodable {
     
     public init(from decoder: LIFXDecoder) throws {
+        var container = decoder.container()
         fatalError()
     }
     
@@ -76,6 +73,7 @@ extension UInt32: LIFXDecodable {
 extension Int32: LIFXDecodable {
     
     public init(from decoder: LIFXDecoder) throws {
+        var container = decoder.container()
         fatalError()
     }
     
@@ -84,6 +82,7 @@ extension Int32: LIFXDecodable {
 extension UInt64: LIFXDecodable {
     
     public init(from decoder: LIFXDecoder) throws {
+        var container = decoder.container()
         fatalError()
     }
     
@@ -92,6 +91,7 @@ extension UInt64: LIFXDecodable {
 extension Int64: LIFXDecodable {
     
     public init(from decoder: LIFXDecoder) throws {
+        var container = decoder.container()
         fatalError()
     }
     
@@ -100,6 +100,7 @@ extension Int64: LIFXDecodable {
 extension Float32: LIFXDecodable {
     
     public init(from decoder: LIFXDecoder) throws {
+        var container = decoder.container()
         fatalError()
     }
     
@@ -108,7 +109,24 @@ extension Float32: LIFXDecodable {
 extension Float64: LIFXDecodable {
     
     public init(from decoder: LIFXDecoder) throws {
+        var container = decoder.container()
         fatalError()
+    }
+    
+}
+
+extension Bool: LIFXDecodable {
+    
+    public init(from decoder: LIFXDecoder) throws {
+        var container = decoder.container()
+        switch try container.decode(UInt8.self) {
+        case 0:
+            self = false
+        case 1:
+            self = true
+        default:
+            throw LIFXDecoder.Error.dataCorrupted("Invalid bool value")
+        }
     }
     
 }
@@ -116,7 +134,8 @@ extension Float64: LIFXDecodable {
 extension Date: LIFXDecodable {
     
     public init(from decoder: LIFXDecoder) throws {
-        fatalError()
+        var container = decoder.container()
+        self.init(timeIntervalSince1970: TimeInterval(try container.decode(Int64.self) / 1_000_000))
     }
     
 }

@@ -21,6 +21,16 @@ public class LIFXDecoder {
 
 extension LIFXDecoder {
     
+    public enum Error: Swift.Error {
+        
+        case dataCorrupted(_ message: String)
+        
+    }
+    
+}
+
+extension LIFXDecoder {
+    
     public static func decode<T: LIFXDecodable>(_ type: T.Type, data: Data) throws -> T {
         return try T(from: LIFXDecoder(data: data))
     }
@@ -43,16 +53,6 @@ extension LIFXDecoder {
     
     internal func decode<T: LIFXDecodable>(_ type: T.Type) throws -> T {
         fatalError("Implement me")
-    }
-    
-}
-
-extension LIFXDecoder {
-    
-    public enum Error: Swift.Error {
-        
-        case dataCorrupted(_ message: String)
-        
     }
     
 }

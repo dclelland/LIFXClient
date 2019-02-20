@@ -15,6 +15,16 @@ public class LIFXEncoder {
 
 extension LIFXEncoder {
     
+    public enum Error: Swift.Error {
+        
+        case dataCorrupted(_ message: String)
+        
+    }
+    
+}
+
+extension LIFXEncoder {
+    
     public static func encode(_ value: LIFXEncodable) throws -> Data {
         let encoder = LIFXEncoder()
         try value.encode(to: encoder)

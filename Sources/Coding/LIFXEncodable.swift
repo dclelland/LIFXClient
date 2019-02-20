@@ -21,17 +21,10 @@ extension LIFXEncodable where Self: RawRepresentable, Self.RawValue: LIFXEncodab
     
 }
 
-extension Bool: LIFXEncodable {
-    
-    public func encode(to encoder: LIFXEncoder) throws {
-        fatalError()
-    }
-    
-}
-
 extension UInt8: LIFXEncodable {
     
     public func encode(to encoder: LIFXEncoder) throws {
+        var container = encoder.container()
         fatalError()
     }
     
@@ -40,6 +33,7 @@ extension UInt8: LIFXEncodable {
 extension Int8: LIFXEncodable {
     
     public func encode(to encoder: LIFXEncoder) throws {
+        var container = encoder.container()
         fatalError()
     }
     
@@ -48,6 +42,7 @@ extension Int8: LIFXEncodable {
 extension UInt16: LIFXEncodable {
     
     public func encode(to encoder: LIFXEncoder) throws {
+        var container = encoder.container()
         fatalError()
     }
     
@@ -56,6 +51,7 @@ extension UInt16: LIFXEncodable {
 extension Int16: LIFXEncodable {
     
     public func encode(to encoder: LIFXEncoder) throws {
+        var container = encoder.container()
         fatalError()
     }
     
@@ -64,6 +60,7 @@ extension Int16: LIFXEncodable {
 extension UInt32: LIFXEncodable {
     
     public func encode(to encoder: LIFXEncoder) throws {
+        var container = encoder.container()
         fatalError()
     }
     
@@ -72,6 +69,7 @@ extension UInt32: LIFXEncodable {
 extension Int32: LIFXEncodable {
     
     public func encode(to encoder: LIFXEncoder) throws {
+        var container = encoder.container()
         fatalError()
     }
     
@@ -80,6 +78,7 @@ extension Int32: LIFXEncodable {
 extension UInt64: LIFXEncodable {
     
     public func encode(to encoder: LIFXEncoder) throws {
+        var container = encoder.container()
         fatalError()
     }
     
@@ -88,6 +87,7 @@ extension UInt64: LIFXEncodable {
 extension Int64: LIFXEncodable {
     
     public func encode(to encoder: LIFXEncoder) throws {
+        var container = encoder.container()
         fatalError()
     }
     
@@ -96,6 +96,7 @@ extension Int64: LIFXEncodable {
 extension Float32: LIFXEncodable {
     
     public func encode(to encoder: LIFXEncoder) throws {
+        var container = encoder.container()
         fatalError()
     }
     
@@ -104,7 +105,22 @@ extension Float32: LIFXEncodable {
 extension Float64: LIFXEncodable {
     
     public func encode(to encoder: LIFXEncoder) throws {
+        var container = encoder.container()
         fatalError()
+    }
+    
+}
+
+extension Bool: LIFXEncodable {
+    
+    public func encode(to encoder: LIFXEncoder) throws {
+        var container = encoder.container()
+        switch self {
+        case false:
+            try container.encode(UInt8(0))
+        case true:
+            try container.encode(UInt8(1))
+        }
     }
     
 }
@@ -112,7 +128,8 @@ extension Float64: LIFXEncodable {
 extension Date: LIFXEncodable {
     
     public func encode(to encoder: LIFXEncoder) throws {
-        fatalError()
+        var container = encoder.container()
+        try container.encode(Int64(timeIntervalSince1970 * 1_000_000))
     }
     
 }
