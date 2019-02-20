@@ -90,7 +90,7 @@ extension LIFXDevice {
         
     }
     
-    public func getHostInfo(_ request: GetHostInfo) -> Promise<StateHostInfo> {
+    public func getHostInfo() -> Promise<StateHostInfo> {
         return requestMessage(GetHostInfo())
     }
     
@@ -129,7 +129,7 @@ extension LIFXDevice {
         
     }
     
-    public func getHostFirmware(_ request: GetHostFirmware) -> Promise<StateHostFirmware> {
+    public func getHostFirmware() -> Promise<StateHostFirmware> {
         return requestMessage(GetHostFirmware())
     }
     
@@ -268,8 +268,8 @@ extension LIFXDevice {
         return requestMessage(GetPower())
     }
     
-    public func setPower(_ request: SetPower) -> Promise<StatePower> {
-        return requestMessage(request)
+    public func setPower(level: UInt16) -> Promise<StatePower> {
+        return requestMessage(SetPower(level: level))
     }
     
 }
@@ -326,8 +326,8 @@ extension LIFXDevice {
         return requestMessage(GetLabel())
     }
     
-    public func setLabel(_ request: SetLabel) -> Promise<StateLabel> {
-        return requestMessage(request)
+    public func setLabel(label: String) -> Promise<StateLabel> {
+        return requestMessage(SetLabel(label: label))
     }
     
 }
@@ -480,8 +480,8 @@ extension LIFXDevice {
         return requestMessage(GetLocation())
     }
     
-    public func setLocation(_ request: SetLocation) -> Promise<StateLocation> {
-        return requestMessage(request)
+    public func setLocation(location: Data, label: String, updatedAt: Date) -> Promise<StateLocation> {
+        return requestMessage(SetLocation(location: location, label: label, updatedAt: updatedAt))
     }
     
 }
@@ -550,8 +550,8 @@ extension LIFXDevice {
         return requestMessage(GetGroup())
     }
     
-    public func setGroup(_ request: SetGroup) -> Promise<StateGroup> {
-        return requestMessage(request)
+    public func setGroup(group: Data, label: String, updatedAt: Date) -> Promise<StateGroup> {
+        return requestMessage(SetGroup(group: group, label: label, updatedAt: updatedAt))
     }
     
 }
@@ -592,8 +592,8 @@ extension LIFXDevice {
         
     }
     
-    public func echo(_ request: EchoRequest) -> Promise<EchoResponse> {
-        return requestMessage(request)
+    public func echo(payload: Data) -> Promise<EchoResponse> {
+        return requestMessage(EchoRequest(payload: payload))
     }
     
 }
