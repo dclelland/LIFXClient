@@ -15,11 +15,17 @@ public struct LIFXPacket<Message: LIFXMessage> {
     
     public var sequence: UInt8
     
+    public var acknowledgement: Bool
+    
+    public var response: Bool
+    
     public var message: Message
     
-    public init(source: UInt32 = 0, target: UInt64 = 0, sequence: UInt8 = 0, message: Message) {
+    public init(source: UInt32 = 0, target: UInt64 = 0, acknowledgement: Bool = false, response: Bool = false, sequence: UInt8 = 0, message: Message) {
         self.source = source
         self.target = target
+        self.acknowledgement = acknowledgement
+        self.response = response
         self.sequence = sequence
         self.message = message
     }
@@ -63,7 +69,9 @@ extension LIFXPacket: LIFXDecodable where Message: LIFXDecodable {
         // Frame address
         target = try container.decode(UInt64.self)
         try container.decodeEmpty(bytes: 6)
-        _ = try container.decode(UInt8.self)
+        let requirements = try container.decode(UInt8.self)
+        acknowledgement = requirements & 0b0000_0010 != 0
+        response = requirements & 0b0000_0001 != 0
         sequence = try container.decode(UInt8.self)
         
         // Protocol header
@@ -91,7 +99,7 @@ extension LIFXPacket: LIFXEncodable where Message: LIFXEncodable {
         // Frame address
         try container.encode(target)
         try container.encodeEmpty(bytes: 6)
-        try container.encode(UInt8(0b0000_0000)) // Come back to this: reserved, ack_required, res_required
+        try container.encode(UInt8((acknowledgement ? 0b0000_0010 : 0) | (response ? 0b0000_0001 : 0)))
         try container.encode(sequence)
         
         // Protocol header
