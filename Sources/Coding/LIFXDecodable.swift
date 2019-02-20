@@ -7,6 +7,104 @@
 
 import Foundation
 
-public protocol LIFXDecodable: Decodable {
+public protocol LIFXDecodable {
 
+    init(from decoder: LIFXDecoder) throws
+    
+}
+
+extension Bool: LIFXDecodable {
+    
+    public init(from decoder: LIFXDecoder) throws {
+        fatalError()
+    }
+    
+}
+
+extension UInt8: LIFXDecodable {
+    
+    public init(from decoder: LIFXDecoder) throws {
+        fatalError()
+    }
+    
+}
+
+extension Int8: LIFXDecodable {
+    
+    public init(from decoder: LIFXDecoder) throws {
+        fatalError()
+    }
+    
+}
+
+extension UInt16: LIFXDecodable {
+    
+    public init(from decoder: LIFXDecoder) throws {
+        fatalError()
+    }
+    
+}
+
+extension Int16: LIFXDecodable {
+    
+    public init(from decoder: LIFXDecoder) throws {
+        fatalError()
+    }
+    
+}
+
+extension UInt32: LIFXDecodable {
+    
+    public init(from decoder: LIFXDecoder) throws {
+        fatalError()
+    }
+    
+}
+
+extension Int32: LIFXDecodable {
+    
+    public init(from decoder: LIFXDecoder) throws {
+        fatalError()
+    }
+    
+}
+
+extension UInt64: LIFXDecodable {
+    
+    public init(from decoder: LIFXDecoder) throws {
+        fatalError()
+    }
+    
+}
+
+extension Int64: LIFXDecodable {
+    
+    public init(from decoder: LIFXDecoder) throws {
+        fatalError()
+    }
+    
+}
+
+extension Float32: LIFXDecodable {
+    
+    public init(from decoder: LIFXDecoder) throws {
+        fatalError()
+    }
+    
+}
+
+extension Float64: LIFXDecodable {
+    
+    public init(from decoder: LIFXDecoder) throws {
+        fatalError()
+    }
+    
+}
+
+extension Date: LIFXDecodable {
+    
+    public init(from decoder: LIFXDecoder) throws {
+        fatalError()
+    }
+    
 }

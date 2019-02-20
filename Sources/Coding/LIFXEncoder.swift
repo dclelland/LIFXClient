@@ -25,18 +25,20 @@ extension LIFXEncoder {
 
 extension LIFXEncoder {
     
-    internal func encodeNil() throws {
-        
+    internal func encodeEmpty(bytes: Int) throws {
+        fatalError("Implement me")
     }
     
-    internal func encode(_ value: Encodable) throws {
-        switch value {
-        case let value as LIFXEncodable:
-            print("ENCODE", type(of: value), value)
-            try value.encode(to: self)
-        default:
-            appendBytes(of: value)
-        }
+    internal func encodeData(_ data: Data, bytes: Int) throws {
+        fatalError("Implement me")
+    }
+    
+    internal func encodeString(_ string: String, bytes: Int) throws {
+        fatalError("Implement me")
+    }
+    
+    internal func encode(_ value: LIFXEncodable) throws {
+        try value.encode(to: self)
     }
     
     internal func appendBytes<T>(of value: T) {
@@ -51,109 +53,29 @@ extension LIFXEncoder {
     
 }
 
-extension LIFXEncoder: Encoder {
+extension LIFXEncoder {
     
-    public var codingPath: [CodingKey] {
-        return []
+    public func container() -> Container {
+        return Container(encoder: self)
     }
     
-    public var userInfo: [CodingUserInfoKey: Any] {
-        return [:]
-    }
-    
-    public func container<Key: CodingKey>(keyedBy type: Key.Type) -> KeyedEncodingContainer<Key> {
-        return KeyedEncodingContainer(KeyedContainer<Key>(encoder: self))
-    }
-    
-    public func unkeyedContainer() -> UnkeyedEncodingContainer {
-        return UnkeyedContainer(encoder: self)
-    }
-    
-    public func singleValueContainer() -> SingleValueEncodingContainer {
-        return SingleValueContainer(encoder: self)
-    }
-    
-    private struct KeyedContainer<Key: CodingKey>: KeyedEncodingContainerProtocol {
+    public struct Container {
         
-        var encoder: LIFXEncoder
+        internal var encoder: LIFXEncoder
         
-        var codingPath: [CodingKey] {
-            return []
+        mutating func encodeEmpty(bytes: Int) throws {
+            try encoder.encodeEmpty(bytes: bytes)
         }
         
-        mutating func encodeNil(forKey key: Key) throws {
-            try encoder.encodeNil()
+        mutating func encodeData(_ data: Data, bytes: Int) throws {
+            try encoder.encodeData(data, bytes: bytes)
         }
         
-        mutating func encode<T: Encodable>(_ value: T, forKey key: Key) throws {
-            try encoder.encode(value)
+        mutating func encodeString(_ string: String, bytes: Int) throws {
+            try encoder.encodeString(string, bytes: bytes)
         }
         
-        mutating func nestedContainer<NestedKey: CodingKey>(keyedBy keyType: NestedKey.Type, forKey key: Key) -> KeyedEncodingContainer<NestedKey> {
-            return encoder.container(keyedBy: keyType)
-        }
-        
-        mutating func nestedUnkeyedContainer(forKey key: Key) -> UnkeyedEncodingContainer {
-            return encoder.unkeyedContainer()
-        }
-        
-        mutating func superEncoder() -> Encoder {
-            return encoder
-        }
-        
-        mutating func superEncoder(forKey key: Key) -> Encoder {
-            return encoder
-        }
-        
-    }
-    
-    private struct UnkeyedContainer: UnkeyedEncodingContainer {
-        
-        var encoder: LIFXEncoder
-        
-        var codingPath: [CodingKey] {
-            return []
-        }
-        
-        var count: Int {
-            return 0
-        }
-        
-        mutating func encodeNil() throws {
-            try encoder.encodeNil()
-        }
-        
-        mutating func encode<T: Encodable>(_ value: T) throws {
-            try encoder.encode(value)
-        }
-        
-        mutating func nestedContainer<NestedKey: CodingKey>(keyedBy keyType: NestedKey.Type) -> KeyedEncodingContainer<NestedKey> {
-            return encoder.container(keyedBy: keyType)
-        }
-        
-        mutating func nestedUnkeyedContainer() -> UnkeyedEncodingContainer {
-            return encoder.unkeyedContainer()
-        }
-        
-        mutating func superEncoder() -> Encoder {
-            return encoder
-        }
-        
-    }
-    
-    private struct SingleValueContainer: SingleValueEncodingContainer {
-        
-        var encoder: LIFXEncoder
-        
-        var codingPath: [CodingKey] {
-            return []
-        }
-        
-        mutating func encodeNil() throws {
-            try encoder.encodeNil()
-        }
-        
-        mutating func encode<T: Encodable>(_ value: T) throws {
+        mutating func encode<T: LIFXEncodable>(_ value: T) throws {
             try encoder.encode(value)
         }
         

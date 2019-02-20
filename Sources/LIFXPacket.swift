@@ -17,19 +17,19 @@ public struct LIFXPacket<Message: LIFXMessage> {
     
 }
 
-extension LIFXPacket: Decodable, LIFXDecodable where Message: LIFXDecodable {
+extension LIFXPacket: LIFXDecodable where Message: LIFXDecodable {
     
-    public init(from decoder: Decoder) throws {
-        var container = try decoder.unkeyedContainer()
+    public init(from decoder: LIFXDecoder) throws {
+        var container = decoder.container()
         message = try container.decode(Message.self)
     }
     
 }
 
-extension LIFXPacket: Encodable, LIFXEncodable where Message: LIFXEncodable {
+extension LIFXPacket: LIFXEncodable where Message: LIFXEncodable {
     
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.unkeyedContainer()
+    public func encode(to encoder: LIFXEncoder) throws {
+        var container = encoder.container()
         try container.encode(message)
     }
     
