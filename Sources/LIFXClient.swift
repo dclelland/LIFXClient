@@ -25,7 +25,9 @@ public struct LIFXClient {
     public func connect() {
         connection.stateUpdateHandler = { state in
             if state == .ready {
-                self.request(LIFXPacket(source: self.source, response: true, message: Light.SetColor(color: Light.HSBK(hue: 0x3333, saturation: 0xFFFF, brightness: 0xFFFF, kelvin: 3500), duration: 1000))).done { (response: LIFXPacket<Light.State>) in
+                let packet = LIFXPacket(source: self.source, response: true, message: Light.SetColor(color: Light.HSBK(hue: 0x3333, saturation: 0xFFFF, brightness: 0xFFFF, kelvin: 3500), duration: 1000))
+                print(packet)
+                self.request(packet).done { (response: LIFXPacket<Light.State>) in
                     print(response)
                 }.catch { error in
                     print(error)

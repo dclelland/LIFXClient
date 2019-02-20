@@ -9,6 +9,14 @@ import Foundation
 
 public struct LIFXPacket<Message: LIFXMessage> {
     
+    public var origin: UInt8
+    
+    public var tagged: Bool
+    
+    public var addressable: Bool
+    
+    public var `protocol`: UInt16
+    
     public var source: UInt32
     
     public var target: UInt64
@@ -21,7 +29,11 @@ public struct LIFXPacket<Message: LIFXMessage> {
     
     public var message: Message
     
-    public init(source: UInt32 = 0, target: UInt64 = 0, acknowledgement: Bool = false, response: Bool = false, sequence: UInt8 = 0, message: Message) {
+    public init(origin: UInt8 = 0, tagged: Bool = true, addressable: Bool = true, protocol: UInt16 = 1024, source: UInt32 = 0, target: UInt64 = 0, acknowledgement: Bool = false, response: Bool = false, sequence: UInt8 = 0, message: Message) {
+        self.origin = origin
+        self.tagged = tagged
+        self.addressable = addressable
+        self.protocol = `protocol`
         self.source = source
         self.target = target
         self.acknowledgement = acknowledgement
@@ -63,7 +75,11 @@ extension LIFXPacket: LIFXDecodable where Message: LIFXDecodable {
         // Frame
         let size = try container.decode(UInt16.self)
         guard size == LIFXPacket.packetSize else { throw Error.incorrectPacketSize(expected: LIFXPacket.packetSize, received: size) }
-        _ = try container.decode(UInt16.self)
+        let frame = try container.decode(UInt16.self)
+        origin = UInt8(frame & 0b1100_0000_0000_0000 >> 14)
+        tagged = frame & 0b0010_0000_0000_0000 != 0
+        addressable = frame & 0b0001_0000_0000_0000 != 0
+        `protocol` = frame & 0b0000_1111_1111_1111
         source = try container.decode(UInt32.self)
         
         // Frame address
@@ -93,7 +109,7 @@ extension LIFXPacket: LIFXEncodable where Message: LIFXEncodable {
         
         // Frame
         try container.encode(LIFXPacket.packetSize)
-        try container.encode(UInt16(0b0011_0100_0000_0000)) // Come back to this: origin, tagged, addressable, protocol
+        try container.encode(UInt16((UInt16(origin) << 14) | (tagged ? 0b0010_0000_0000_0000 : 0) | (addressable ? 0b0001_0000_0000_0000 : 0) | (`protocol` & 0b0000_1111_1111_1111)))
         try container.encode(source)
         
         // Frame address
