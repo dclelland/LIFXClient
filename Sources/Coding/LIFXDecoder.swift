@@ -38,21 +38,29 @@ extension LIFXDecoder {
 }
 
 extension LIFXDecoder {
-    
-    internal func decodeEmpty(bytes: Int) throws {
-        fatalError("Implement me")
+
+    internal func decode<T: LIFXDecodable>(_ type: T.Type) throws -> T {
+        return try T(from: self)
     }
+
+}
+
+extension LIFXDecoder {
     
     internal func decodeData(bytes: Int) throws -> Data {
         fatalError("Implement me")
     }
     
-    internal func decodeString(bytes: Int) throws -> String {
-        fatalError("Implement me")
+    internal func decodeEmpty(bytes: Int) throws {
+        _ = try decodeData(bytes: bytes)
     }
     
-    internal func decode<T: LIFXDecodable>(_ type: T.Type) throws -> T {
-        fatalError("Implement me")
+    internal func decodeString(bytes: Int) throws -> String {
+        guard let string = String(bytes: try decodeData(bytes: bytes), encoding: .utf8) else {
+            throw Error.dataCorrupted("Invalid string")
+        }
+        
+        return string
     }
     
 }
@@ -67,20 +75,20 @@ extension LIFXDecoder {
         
         internal var decoder: LIFXDecoder
         
-        mutating func decodeEmpty(bytes: Int) throws {
-            try decoder.decodeEmpty(bytes: bytes)
+        mutating func decode<T: LIFXDecodable>(_ type: T.Type) throws -> T {
+            return try decoder.decode(type)
         }
         
         mutating func decodeData(bytes: Int) throws -> Data {
             return try decoder.decodeData(bytes: bytes)
         }
         
-        mutating func decodeString(bytes: Int) throws -> String {
-            return try decoder.decodeString(bytes: bytes)
+        mutating func decodeEmpty(bytes: Int) throws {
+            try decoder.decodeEmpty(bytes: bytes)
         }
         
-        mutating func decode<T: LIFXDecodable>(_ type: T.Type) throws -> T {
-            return try decoder.decode(type)
+        mutating func decodeString(bytes: Int) throws -> String {
+            return try decoder.decodeString(bytes: bytes)
         }
         
     }

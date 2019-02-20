@@ -25,7 +25,7 @@ extension UInt8: LIFXEncodable {
     
     public func encode(to encoder: LIFXEncoder) throws {
         var container = encoder.container()
-        fatalError()
+        try container.write(littleEndian)
     }
     
 }
@@ -34,7 +34,7 @@ extension Int8: LIFXEncodable {
     
     public func encode(to encoder: LIFXEncoder) throws {
         var container = encoder.container()
-        fatalError()
+        try container.write(littleEndian)
     }
     
 }
@@ -43,7 +43,7 @@ extension UInt16: LIFXEncodable {
     
     public func encode(to encoder: LIFXEncoder) throws {
         var container = encoder.container()
-        fatalError()
+        try container.write(littleEndian)
     }
     
 }
@@ -52,7 +52,7 @@ extension Int16: LIFXEncodable {
     
     public func encode(to encoder: LIFXEncoder) throws {
         var container = encoder.container()
-        fatalError()
+        try container.write(littleEndian)
     }
     
 }
@@ -61,7 +61,7 @@ extension UInt32: LIFXEncodable {
     
     public func encode(to encoder: LIFXEncoder) throws {
         var container = encoder.container()
-        fatalError()
+        try container.write(littleEndian)
     }
     
 }
@@ -70,7 +70,7 @@ extension Int32: LIFXEncodable {
     
     public func encode(to encoder: LIFXEncoder) throws {
         var container = encoder.container()
-        fatalError()
+        try container.write(littleEndian)
     }
     
 }
@@ -79,7 +79,7 @@ extension UInt64: LIFXEncodable {
     
     public func encode(to encoder: LIFXEncoder) throws {
         var container = encoder.container()
-        fatalError()
+        try container.write(littleEndian)
     }
     
 }
@@ -88,7 +88,7 @@ extension Int64: LIFXEncodable {
     
     public func encode(to encoder: LIFXEncoder) throws {
         var container = encoder.container()
-        fatalError()
+        try container.write(littleEndian)
     }
     
 }
@@ -97,7 +97,7 @@ extension Float32: LIFXEncodable {
     
     public func encode(to encoder: LIFXEncoder) throws {
         var container = encoder.container()
-        fatalError()
+        try container.write(self)
     }
     
 }
@@ -106,7 +106,7 @@ extension Float64: LIFXEncodable {
     
     public func encode(to encoder: LIFXEncoder) throws {
         var container = encoder.container()
-        fatalError()
+        try container.write(self)
     }
     
 }

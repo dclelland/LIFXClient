@@ -181,7 +181,7 @@ public struct LIFXClient {
         
         
         
-        let message = Light.SetColor(reserved: 0, color: Light.HSBK(hue: 0x5555, saturation: 0xFFFF, brightness: 0xFFFF, kelvin: 0x0DAC), duration: 1024)
+        let message = Light.SetColor(color: Light.HSBK(hue: 0x5555, saturation: 0xFFFF, brightness: 0xFFFF, kelvin: 0x0DAC), duration: 1024)
 //        let message = Light.Get()
         let packet = LIFXPacket(message: message)
         
