@@ -49,7 +49,9 @@ extension LIFXDevice {
     }
     
     public func getService() -> Promise<StateService> {
-        return requestMessage(GetService())
+        return requestMessage(
+            GetService()
+        )
     }
     
 }
@@ -91,7 +93,9 @@ extension LIFXDevice {
     }
     
     public func getHostInfo() -> Promise<StateHostInfo> {
-        return requestMessage(GetHostInfo())
+        return requestMessage(
+            GetHostInfo()
+        )
     }
     
 }
@@ -130,7 +134,9 @@ extension LIFXDevice {
     }
     
     public func getHostFirmware() -> Promise<StateHostFirmware> {
-        return requestMessage(GetHostFirmware())
+        return requestMessage(
+            GetHostFirmware()
+        )
     }
     
 }
@@ -172,7 +178,9 @@ extension LIFXDevice {
     }
     
     public func getWifiInfo() -> Promise<StateWifiInfo> {
-        return requestMessage(GetWifiInfo())
+        return requestMessage(
+            GetWifiInfo()
+        )
     }
     
 }
@@ -211,7 +219,9 @@ extension LIFXDevice {
     }
     
     public func getWifiFirmware() -> Promise<StateWifiFirmware> {
-        return requestMessage(GetWifiFirmware())
+        return requestMessage(
+            GetWifiFirmware()
+        )
     }
     
 }
@@ -265,11 +275,17 @@ extension LIFXDevice {
     }
     
     public func getPower() -> Promise<StatePower> {
-        return requestMessage(GetPower())
+        return requestMessage(
+            GetPower()
+        )
     }
     
-    public func setPower(level: UInt16) -> Promise<StatePower> {
-        return requestMessage(SetPower(level: level))
+    public func setPower(on: Bool) -> Promise<StatePower> {
+        return requestMessage(
+            SetPower(
+                level: on ? UInt16.max : UInt16.min
+            )
+        )
     }
     
 }
@@ -323,11 +339,17 @@ extension LIFXDevice {
     }
     
     public func getLabel() -> Promise<StateLabel> {
-        return requestMessage(GetLabel())
+        return requestMessage(
+            GetLabel()
+        )
     }
     
     public func setLabel(label: String) -> Promise<StateLabel> {
-        return requestMessage(SetLabel(label: label))
+        return requestMessage(
+            SetLabel(
+                label: label
+            )
+        )
     }
     
 }
@@ -368,7 +390,9 @@ extension LIFXDevice {
     }
     
     public func getVersion() -> Promise<StateVersion> {
-        return requestMessage(GetVersion())
+        return requestMessage(
+            GetVersion()
+        )
     }
     
 }
@@ -409,7 +433,9 @@ extension LIFXDevice {
     }
     
     public func getInfo() -> Promise<StateInfo> {
-        return requestMessage(GetInfo())
+        return requestMessage(
+            GetInfo()
+        )
     }
     
 }
@@ -477,11 +503,19 @@ extension LIFXDevice {
     }
     
     public func getLocation() -> Promise<StateLocation> {
-        return requestMessage(GetLocation())
+        return requestMessage(
+            GetLocation()
+        )
     }
     
     public func setLocation(location: Data, label: String, updatedAt: Date) -> Promise<StateLocation> {
-        return requestMessage(SetLocation(location: location, label: label, updatedAt: updatedAt))
+        return requestMessage(
+            SetLocation(
+                location: location,
+                label: label,
+                updatedAt: updatedAt
+            )
+        )
     }
     
 }
@@ -547,11 +581,19 @@ extension LIFXDevice {
     }
     
     public func getGroup() -> Promise<StateGroup> {
-        return requestMessage(GetGroup())
+        return requestMessage(
+            GetGroup()
+        )
     }
     
     public func setGroup(group: Data, label: String, updatedAt: Date) -> Promise<StateGroup> {
-        return requestMessage(SetGroup(group: group, label: label, updatedAt: updatedAt))
+        return requestMessage(
+            SetGroup(
+                group: group,
+                label: label,
+                updatedAt: updatedAt
+            )
+        )
     }
     
 }
@@ -593,7 +635,11 @@ extension LIFXDevice {
     }
     
     public func echo(payload: Data) -> Promise<EchoResponse> {
-        return requestMessage(EchoRequest(payload: payload))
+        return requestMessage(
+            EchoRequest(
+                payload: payload
+            )
+        )
     }
     
 }
