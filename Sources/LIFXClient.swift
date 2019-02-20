@@ -11,30 +11,13 @@ import PromiseKit
 
 public struct LIFXClient {
     
-    let source: UInt32
+    public let source: UInt32
+    public let connection: NWConnection
     
-    let connection: NWConnection
-    let queue: DispatchQueue
-    
-    public init(address: IPv4Address = .broadcast, source: UInt32 = 0) {
-        self.source = source
-        self.connection = NWConnection(host: .ipv4(address), port: 56700, using: .udp)
-        self.queue = DispatchQueue(label: "LIFXClient Queue")
-    }
-    
-    public func connect() {
-        connection.stateUpdateHandler = { state in
-            if state == .ready {
-                let packet = LIFXPacket(source: self.source, response: true, message: Light.SetColor(color: Light.HSBK(hue: 0x3333, saturation: 0xFFFF, brightness: 0xFFFF, kelvin: 3500), duration: 1000))
-                print(packet)
-                self.request(packet).done { (response: LIFXPacket<Light.State>) in
-                    print(response)
-                }.catch { error in
-                    print(error)
-                }
-            }
+    public static func connect(host: NWEndpoint.Host = .ipv4(.broadcast), queue: DispatchQueue = DispatchQueue(label: "LIFXClient Queue"), source: UInt32 = 0) -> Promise<LIFXClient> {
+        return NWConnection(host: host, port: 56700, using: .udp).connect(queue: queue).map { connection in
+            return LIFXClient(source: source, connection: connection)
         }
-        connection.start(queue: queue)
     }
     
 }

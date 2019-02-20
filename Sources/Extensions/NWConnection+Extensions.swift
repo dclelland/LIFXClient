@@ -11,6 +11,32 @@ import PromiseKit
 
 extension NWConnection {
     
+    internal func connect(queue: DispatchQueue) -> Promise<NWConnection> {
+        return Promise { resolver in
+            self.stateUpdateHandler = { state in
+                switch state {
+                case .setup:
+                    break
+                case .waiting(let error):
+                    resolver.reject(error)
+                case .preparing:
+                    break
+                case .ready:
+                    resolver.fulfill(self)
+                case .failed(let error):
+                    resolver.reject(error)
+                case .cancelled:
+                    break
+                }
+            }
+            self.start(queue: queue)
+        }
+    }
+    
+}
+
+extension NWConnection {
+    
     internal func send(_ data: Data) -> Promise<Void> {
         return Promise { resolver in
             self.send(content: data, completion: .contentProcessed { error in
