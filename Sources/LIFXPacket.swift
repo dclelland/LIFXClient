@@ -26,17 +26,40 @@ public struct LIFXPacket<Message: LIFXMessage> {
     
 }
 
-//extension LIFXPacket: LIFXDecodable where Message: LIFXDecodable {
-//
-//    public init(from decoder: LIFXDecoder) throws {
-//        var container = decoder.container()
-//        source = 0
-//        target = 0
-//        sequence = 0
-//        message = try container.decode(Message.self)
-//    }
-//
-//}
+extension LIFXPacket {
+    
+    private static var size: UInt16 {
+        return 36 + Message.messageSize
+    }
+    
+}
+
+extension LIFXPacket: LIFXDecodable where Message: LIFXDecodable {
+
+    public init(from decoder: LIFXDecoder) throws {
+        var container = decoder.container()
+        
+        // Frame
+        guard try container.decode(UInt16.self) == LIFXPacket.size else { throw LIFXDecoder.Error.dataCorrupted("Invalid packet size") }
+        _ = try container.decode(UInt16.self)
+        source = try container.decode(UInt32.self)
+        
+        // Frame address
+        target = try container.decode(UInt64.self)
+        try container.decodeEmpty(bytes: 6)
+        _ = try container.decode(UInt8.self)
+        sequence = try container.decode(UInt8.self)
+        
+        // Protocol header
+        try container.decodeEmpty(bytes: 8)
+        guard try container.decode(UInt16.self) == Message.messageType else { throw LIFXDecoder.Error.dataCorrupted("Invalid message type") }
+        try container.decodeEmpty(bytes: 2)
+        
+        // Payload
+        message = try container.decode(Message.self)
+    }
+
+}
 
 extension LIFXPacket: LIFXEncodable where Message: LIFXEncodable {
     
@@ -44,14 +67,14 @@ extension LIFXPacket: LIFXEncodable where Message: LIFXEncodable {
         var container = encoder.container()
         
         // Frame
-        try container.encode(Message.messageSize)
+        try container.encode(LIFXPacket.size)
         try container.encode(UInt16(0b0011_0100_0000_0000)) // Come back to this: origin, tagged, addressable, protocol
         try container.encode(source)
         
         // Frame address
         try container.encode(target)
         try container.encodeEmpty(bytes: 6)
-        try container.encode(UInt8()) // Come back to this: reserved, ack_required, res_required
+        try container.encode(UInt8(0b0000_0000)) // Come back to this: reserved, ack_required, res_required
         try container.encode(sequence)
         
         // Protocol header
@@ -132,58 +155,3 @@ extension LIFXPacket: LIFXEncodable where Message: LIFXEncodable {
 //
 //            0b0000_0000 // 0x00 // 1024 ms
 //        ]
-
-
-//let bytes: [UInt8] = [
-//    // Frame
-//    0b0010_0100, // size: 16, 0x24
-//    0b0000_0000, // size
-//    0b0000_0000, // protocol
-//    0b0011_0100, // (origin: 2, tagged: 1, addressable: 1 bit (always set to 1), protocol: 12), 0x34
-//
-//    0b1000_0000, // source (should probably be nonzero...?)
-//    0b0100_0000, // source
-//    0b0010_0000, // source
-//    0b0001_0000, // source
-//
-//    // Frame address
-//    0b0000_0000, // target
-//    0b0000_0000, // target
-//    0b0000_0000, // target
-//    0b0000_0000, // target
-//
-//    0b0000_0000, // target
-//    0b0000_0000, // target
-//    0b0000_0000, // target
-//    0b0000_0000, // target
-//
-//    0b0000_0000, // reserved
-//    0b0000_0000, // reserved
-//    0b0000_0000, // reserved
-//    0b0000_0000, // reserved
-//
-//    0b0000_0000, // reserved
-//    0b0000_0000, // reserved
-//    0b0000_0000, // more reserved, ack_required, res_required
-//    0b0000_0000, // sequence
-//
-//    // Protocol header
-//    0b0000_0000, // reserved
-//    0b0000_0000, // reserved
-//    0b0000_0000, // reserved
-//    0b0000_0000, // reserved
-//
-//    0b0000_0000, // reserved
-//    0b0000_0000, // reserved
-//    0b0000_0000, // reserved
-//    0b0000_0000, // reserved
-//
-//    0b0000_0010, // type (0x02, little endian),
-//    0b0000_0000, // type
-//    0b0000_0000, // reserved
-//    0b0000_0000, // reserved
-//]
-
-//        let data = try! LIFXEncoder().encode(Device.GetService())
-
-//        let bytes: [UInt8] = [0x24, 0x00, 0x00, 0x34, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x65, 0x00, 0x00, 0x00]
