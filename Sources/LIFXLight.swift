@@ -22,11 +22,31 @@ extension LIFXLight {
         
         public var kelvin: UInt16
         
+        public static let defaultKelvin: UInt16 = 3500
+        
         public init(hue: UInt16, saturation: UInt16, brightness: UInt16, kelvin: UInt16) {
             self.hue = hue
             self.saturation = saturation
             self.brightness = brightness
             self.kelvin = kelvin
+        }
+        
+        public init(color: UIColor, kelvin: UInt16 = HSBK.defaultKelvin) {
+            self.init(
+                hue: UInt16(color.hue * CGFloat(UInt16.max)),
+                saturation: UInt16(color.saturation * CGFloat(UInt16.max)),
+                brightness: UInt16(color.brightness * CGFloat(UInt16.max)),
+                kelvin: kelvin
+            )
+        }
+        
+        public var color: UIColor {
+            return UIColor(
+                hue: CGFloat(hue) / CGFloat(UInt16.max),
+                saturation: CGFloat(saturation) / CGFloat(UInt16.max),
+                brightness: CGFloat(brightness) / CGFloat(UInt16.max),
+                alpha: 1.0
+            )
         }
         
         public init(from decoder: LIFXDecoder) throws {
