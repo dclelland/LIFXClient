@@ -7,6 +7,12 @@
 
 import Foundation
 
+public typealias LIFXCodableMessage = LIFXMessage & LIFXCodable
+
+public typealias LIFXDecodableMessage = LIFXMessage & LIFXDecodable
+
+public typealias LIFXEncodableMessage = LIFXMessage & LIFXEncodable
+
 public protocol LIFXMessage {
     
     static var messageSize: UInt16 { get }
@@ -27,7 +33,7 @@ public struct Device {
 
 extension Device {
 
-    public struct GetService: LIFXMessage, LIFXEncodable {
+    public struct GetService: LIFXEncodableMessage {
         
         public static let messageSize: UInt16 = 0
         
@@ -37,7 +43,7 @@ extension Device {
         
     }
 
-    public struct StateService: LIFXMessage, LIFXDecodable {
+    public struct StateService: LIFXDecodableMessage {
         
         public static let messageSize: UInt16 = 5
         
@@ -59,7 +65,7 @@ extension Device {
 
 extension Device {
 
-    public struct GetHostInfo: LIFXMessage, LIFXEncodable {
+    public struct GetHostInfo: LIFXEncodableMessage {
         
         public static let messageSize: UInt16 = 0
         
@@ -69,7 +75,7 @@ extension Device {
         
     }
 
-    public struct StateHostInfo: LIFXMessage, LIFXDecodable {
+    public struct StateHostInfo: LIFXDecodableMessage {
         
         public static let messageSize: UInt16 = 12
         
@@ -95,7 +101,7 @@ extension Device {
 
 extension Device {
 
-    public struct GetHostFirmware: LIFXMessage, LIFXEncodable {
+    public struct GetHostFirmware: LIFXEncodableMessage {
         
         public static let messageSize: UInt16 = 0
         
@@ -105,7 +111,7 @@ extension Device {
         
     }
 
-    public struct StateHostFirmware: LIFXMessage, LIFXDecodable {
+    public struct StateHostFirmware: LIFXDecodableMessage {
         
         public static let messageSize: UInt16 = 20
         
@@ -128,7 +134,7 @@ extension Device {
 
 extension Device {
 
-    public struct GetWifiInfo: LIFXMessage, LIFXEncodable {
+    public struct GetWifiInfo: LIFXEncodableMessage {
         
         public static let messageSize: UInt16 = 0
         
@@ -138,7 +144,7 @@ extension Device {
         
     }
 
-    public struct StateWifiInfo: LIFXMessage, LIFXDecodable {
+    public struct StateWifiInfo: LIFXDecodableMessage {
         
         public static let messageSize: UInt16 = 12
         
@@ -164,7 +170,7 @@ extension Device {
 
 extension Device {
 
-    public struct GetWifiFirmware: LIFXMessage, LIFXEncodable {
+    public struct GetWifiFirmware: LIFXEncodableMessage {
         
         public static let messageSize: UInt16 = 0
         
@@ -174,7 +180,7 @@ extension Device {
         
     }
 
-    public struct StateWifiFirmware: LIFXMessage, LIFXDecodable {
+    public struct StateWifiFirmware: LIFXDecodableMessage {
         
         public static let messageSize: UInt16 = 12
         
@@ -197,7 +203,7 @@ extension Device {
 
 extension Device {
 
-    public struct GetPower: LIFXMessage, LIFXEncodable {
+    public struct GetPower: LIFXEncodableMessage {
         
         public static let messageSize: UInt16 = 0
         
@@ -207,7 +213,7 @@ extension Device {
         
     }
 
-    public struct SetPower: LIFXMessage, LIFXEncodable {
+    public struct SetPower: LIFXEncodableMessage {
         
         public static let messageSize: UInt16 = 2
         
@@ -222,7 +228,7 @@ extension Device {
         
     }
 
-    public struct StatePower: LIFXMessage, LIFXDecodable {
+    public struct StatePower: LIFXDecodableMessage {
         
         public static let messageSize: UInt16 = 2
         
@@ -241,7 +247,7 @@ extension Device {
 
 extension Device {
 
-    public struct GetLabel: LIFXMessage, LIFXEncodable {
+    public struct GetLabel: LIFXEncodableMessage {
         
         public static let messageSize: UInt16 = 0
         
@@ -251,7 +257,7 @@ extension Device {
         
     }
 
-    public struct SetLabel: LIFXMessage, LIFXEncodable {
+    public struct SetLabel: LIFXEncodableMessage {
         
         public static let messageSize: UInt16 = 32
         
@@ -266,7 +272,7 @@ extension Device {
         
     }
 
-    public struct StateLabel: LIFXMessage, LIFXDecodable {
+    public struct StateLabel: LIFXDecodableMessage {
         
         public static let messageSize: UInt16 = 32
         
@@ -285,7 +291,7 @@ extension Device {
 
 extension Device {
 
-    public struct GetVersion: LIFXMessage, LIFXEncodable {
+    public struct GetVersion: LIFXEncodableMessage {
         
         public static let messageSize: UInt16 = 0
         
@@ -295,7 +301,7 @@ extension Device {
         
     }
 
-    public struct StateVersion: LIFXMessage, LIFXDecodable {
+    public struct StateVersion: LIFXDecodableMessage {
         
         public static let messageSize: UInt16 = 12
         
@@ -320,7 +326,7 @@ extension Device {
 
 extension Device {
 
-    public struct GetInfo: LIFXMessage, LIFXEncodable {
+    public struct GetInfo: LIFXEncodableMessage {
         
         public static let messageSize: UInt16 = 0
         
@@ -330,7 +336,7 @@ extension Device {
         
     }
 
-    public struct StateInfo: LIFXMessage, LIFXDecodable {
+    public struct StateInfo: LIFXDecodableMessage {
         
         public static let messageSize: UInt16 = 24
         
@@ -355,7 +361,7 @@ extension Device {
 
 extension Device {
 
-    public struct Acknowledgement: LIFXMessage, LIFXDecodable {
+    public struct Acknowledgement: LIFXDecodableMessage {
         
         public static let messageSize: UInt16 = 0
         
@@ -369,7 +375,7 @@ extension Device {
 
 extension Device {
 
-    public struct GetLocation: LIFXMessage, LIFXEncodable {
+    public struct GetLocation: LIFXEncodableMessage {
         
         public static let messageSize: UInt16 = 0
         
@@ -379,7 +385,7 @@ extension Device {
         
     }
 
-    public struct SetLocation: LIFXMessage, LIFXEncodable {
+    public struct SetLocation: LIFXEncodableMessage {
         
         public static let messageSize: UInt16 = 56
         
@@ -400,7 +406,7 @@ extension Device {
         
     }
 
-    public struct StateLocation: LIFXMessage, LIFXDecodable {
+    public struct StateLocation: LIFXDecodableMessage {
         
         public static let messageSize: UInt16 = 56
         
@@ -425,7 +431,7 @@ extension Device {
 
 extension Device {
 
-    public struct GetGroup: LIFXMessage, LIFXEncodable {
+    public struct GetGroup: LIFXEncodableMessage {
         
         public static let messageSize: UInt16 = 0
         
@@ -435,7 +441,7 @@ extension Device {
         
     }
 
-    public struct SetGroup: LIFXMessage, LIFXEncodable {
+    public struct SetGroup: LIFXEncodableMessage {
         
         public static let messageSize: UInt16 = 56
         
@@ -456,7 +462,7 @@ extension Device {
         
     }
 
-    public struct StateGroup: LIFXMessage, LIFXDecodable {
+    public struct StateGroup: LIFXDecodableMessage {
         
         public static let messageSize: UInt16 = 56
         
@@ -481,7 +487,7 @@ extension Device {
 
 extension Device {
 
-    public struct EchoRequest: LIFXMessage, LIFXEncodable {
+    public struct EchoRequest: LIFXEncodableMessage {
         
         public static let messageSize: UInt16 = 64
         
@@ -496,7 +502,7 @@ extension Device {
         
     }
 
-    public struct EchoResponse: LIFXMessage, LIFXDecodable {
+    public struct EchoResponse: LIFXDecodableMessage {
         
         public static let messageSize: UInt16 = 64
         
@@ -568,7 +574,7 @@ public struct Light {
 
 extension Light {
 
-    public struct Get: LIFXMessage, LIFXEncodable {
+    public struct Get: LIFXEncodableMessage {
         
         public static let messageSize: UInt16 = 0
         
@@ -578,7 +584,7 @@ extension Light {
         
     }
 
-    public struct SetColor: LIFXMessage, LIFXEncodable {
+    public struct SetColor: LIFXEncodableMessage {
         
         public static let messageSize: UInt16 = 13
         
@@ -597,7 +603,7 @@ extension Light {
         
     }
 
-    public struct SetWaveform: LIFXMessage, LIFXEncodable {
+    public struct SetWaveform: LIFXEncodableMessage {
         
         public static let messageSize: UInt16 = 21
         
@@ -628,7 +634,7 @@ extension Light {
         
     }
 
-    public struct SetWaveformOptional: LIFXMessage, LIFXEncodable {
+    public struct SetWaveformOptional: LIFXEncodableMessage {
         
         public static let messageSize: UInt16 = 25
         
@@ -671,7 +677,7 @@ extension Light {
         
     }
 
-    public struct State: LIFXMessage, LIFXDecodable {
+    public struct State: LIFXDecodableMessage {
         
         public static let messageSize: UInt16 = 52
         
@@ -698,7 +704,7 @@ extension Light {
 
 extension Light {
 
-    public struct GetPower: LIFXMessage, LIFXEncodable {
+    public struct GetPower: LIFXEncodableMessage {
         
         public static let messageSize: UInt16 = 0
         
@@ -708,7 +714,7 @@ extension Light {
         
     }
 
-    public struct SetPower: LIFXMessage, LIFXEncodable {
+    public struct SetPower: LIFXEncodableMessage {
         
         public static let messageSize: UInt16 = 6
         
@@ -726,7 +732,7 @@ extension Light {
         
     }
 
-    public struct StatePower: LIFXMessage, LIFXDecodable {
+    public struct StatePower: LIFXDecodableMessage {
         
         public static let messageSize: UInt16 = 2
         
@@ -745,7 +751,7 @@ extension Light {
 
 extension Light {
 
-    public struct GetInfrared: LIFXMessage, LIFXEncodable {
+    public struct GetInfrared: LIFXEncodableMessage {
         
         public static let messageSize: UInt16 = 0
         
@@ -755,7 +761,7 @@ extension Light {
         
     }
 
-    public struct StateInfrared: LIFXMessage, LIFXDecodable {
+    public struct StateInfrared: LIFXDecodableMessage {
         
         public static let messageSize: UInt16 = 2
         
@@ -770,7 +776,7 @@ extension Light {
         
     }
 
-    public struct SetInfrared: LIFXMessage, LIFXEncodable {
+    public struct SetInfrared: LIFXEncodableMessage {
         
         public static let messageSize: UInt16 = 2
         

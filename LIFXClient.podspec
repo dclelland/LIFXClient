@@ -15,6 +15,8 @@ Pod::Spec.new do |s|
   s.platform                = :ios, '12.0'
   s.swift_version           = '4.2'
   
+  s.dependency 'PromiseKit', '~> 6.8.3'
+  
   s.ios.deployment_target   = '12.0'
   s.ios.source_files        = 'Sources/**/*.swift'
   

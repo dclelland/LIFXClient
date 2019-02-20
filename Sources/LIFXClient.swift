@@ -7,6 +7,7 @@
 
 import Foundation
 import Network
+import PromiseKit
 
 public struct LIFXClient {
     
@@ -15,49 +16,84 @@ public struct LIFXClient {
     let connection: NWConnection
     let queue: DispatchQueue
     
-    public init(source: UInt32 = 0) {
+    public init(address: IPv4Address = .broadcast, source: UInt32 = 0) {
         self.source = source
-//        self.connection = NWConnection(host: .ipv4(.broadcast), port: 56700, using: .udp)
-        self.connection = NWConnection(host: .ipv4(IPv4Address("192.168.1.83")!), port: 56700, using: .udp)
+        self.connection = NWConnection(host: .ipv4(address), port: 56700, using: .udp)
         self.queue = DispatchQueue(label: "LIFXClient Queue")
     }
     
     public func connect() {
         connection.stateUpdateHandler = { state in
-            print("CONNECTION", state)
-            switch state {
-            case .ready:
-                self.send()
-            default:
-                break
+            if state == .ready {
+                self.request(LIFXPacket(source: self.source, message: Device.GetService())).done { (response: LIFXPacket<Device.StateService>) in
+                    print(response)
+                }.catch { error in
+                    print(error)
+                }
             }
         }
         connection.start(queue: queue)
     }
     
-    public func send() {
-//        let message = Light.SetColor(color: Light.HSBK(hue: 0xFF00, saturation: 0xFFFF, brightness: 0xFFFF, kelvin: 0x0DAC), duration: 1024)
-        let message = Device.GetService()
-        let packet = LIFXPacket(source: source, message: message)
-        let data = try! LIFXEncoder.encode(packet)
-        
-        print("DATA", [UInt8](data))
-        
-        connection.send(content: data, completion: .contentProcessed { error in
-            print("SENT", error?.localizedDescription ?? "completed")
-        })
+}
 
-        connection.receiveMessage { (content, context, isComplete, error) in
-            guard let content = content else {
-                return
+extension LIFXClient {
+    
+    public func send(_ data: Data) -> Promise<Void> {
+        return Promise { resolver in
+            self.connection.send(content: data, completion: .contentProcessed { error in
+                switch error {
+                case .none:
+                    resolver.fulfill(())
+                case .some(let error):
+                    resolver.reject(error)
+                }
+            })
+        }
+    }
+    
+    public func receive() -> Promise<Data> {
+        return Promise { resolver in
+            self.connection.receiveMessage { (data, context, isComplete, error) in
+                switch (data, error) {
+                case (.some(let data), _):
+                    resolver.fulfill(data)
+                case (_, .some(let error)):
+                    resolver.reject(error)
+                default:
+                    fatalError("Invalid response")
+                }
             }
-            
-            do {
-                print("RECEIVED", [UInt8](content))
-                print("RECEIVED", try LIFXDecoder.decode(LIFXPacket<Device.StateService>.self, data: content))
-            } catch let error {
-                print(error)
-            }
+        }
+    }
+    
+    public func request(_ data: Data) -> Promise<Data> {
+        return when(fulfilled: send(data), receive()).map { _, data in
+            return data
+        }
+    }
+    
+}
+
+extension LIFXClient {
+    
+    public func send<Request: LIFXEncodableMessage>(_ packet: LIFXPacket<Request>) -> Promise<Void> {
+        return firstly {
+            return send(try LIFXEncoder.encode(packet))
+        }
+    }
+    
+    public func receive<Response: LIFXDecodableMessage>(_ type: Response.Type) -> Promise<LIFXPacket<Response>> {
+        return receive().map { data in
+            return try LIFXDecoder.decode(LIFXPacket<Response>.self, data: data)
+        }
+    }
+    
+    public func request<Request: LIFXEncodableMessage, Response: LIFXDecodableMessage>(_ packet: LIFXPacket<Request>) -> Promise<LIFXPacket<Response>> {
+        return firstly {
+            return request(try LIFXEncoder.encode(packet))
+        }.map { data in
+            return try LIFXDecoder.decode(LIFXPacket<Response>.self, data: data)
         }
     }
     
