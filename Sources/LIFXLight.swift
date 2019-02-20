@@ -22,7 +22,7 @@ extension LIFXLight {
         
         public var kelvin: UInt16
         
-        public static let defaultKelvin: UInt16 = 3500
+        public static let neutralKelvin: UInt16 = 3500
         
         public init(hue: UInt16, saturation: UInt16, brightness: UInt16, kelvin: UInt16) {
             self.hue = hue
@@ -31,7 +31,7 @@ extension LIFXLight {
             self.kelvin = kelvin
         }
         
-        public init(color: UIColor, kelvin: UInt16 = HSBK.defaultKelvin) {
+        public init(color: UIColor, kelvin: UInt16 = HSBK.neutralKelvin) {
             self.init(
                 hue: UInt16(color.hue * CGFloat(UInt16.max)),
                 saturation: UInt16(color.saturation * CGFloat(UInt16.max)),
