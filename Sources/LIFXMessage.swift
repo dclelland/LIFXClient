@@ -71,14 +71,12 @@ extension Device {
         
         public var rx: UInt32
         
-        public var reserved: Int16
-        
         public init(from decoder: LIFXDecoder) throws {
             var container = decoder.container()
             signal = try container.decode(Float32.self)
             tx = try container.decode(UInt32.self)
             rx = try container.decode(UInt32.self)
-            reserved = try container.decode(Int16.self)
+            try container.decodeEmpty(bytes: 2)
         }
         
     }
@@ -101,14 +99,12 @@ extension Device {
         
         public var build: Date
         
-        public var reserved: UInt64
-        
         public var version: UInt32
         
         public init(from decoder: LIFXDecoder) throws {
             var container = decoder.container()
             build = try container.decode(Date.self)
-            reserved = try container.decode(UInt64.self)
+            try container.decodeEmpty(bytes: 8)
             version = try container.decode(UInt32.self)
         }
         
@@ -136,14 +132,12 @@ extension Device {
         
         public var rx: UInt32
         
-        public var reserved: Int16
-        
         public init(from decoder: LIFXDecoder) throws {
             var container = decoder.container()
             signal = try container.decode(Float32.self)
             tx = try container.decode(UInt32.self)
             rx = try container.decode(UInt32.self)
-            reserved = try container.decode(Int16.self)
+            try container.decodeEmpty(bytes: 2)
         }
         
     }
@@ -166,14 +160,12 @@ extension Device {
         
         public var build: Date
         
-        public var reserved: UInt64
-        
         public var version: UInt32
         
         public init(from decoder: LIFXDecoder) throws {
             var container = decoder.container()
             build = try container.decode(Date.self)
-            reserved = try container.decode(UInt64.self)
+            try container.decodeEmpty(bytes: 8)
             version = try container.decode(UInt32.self)
         }
         
@@ -528,15 +520,13 @@ extension Light {
         
         public static let messageType: UInt16 = 102
         
-        public var reserved: UInt8
-        
         public var color: HSBK
         
         public var duration: UInt32
         
         public func encode(to encoder: LIFXEncoder) throws {
             var container = encoder.container()
-            try container.encode(reserved)
+            try container.encodeEmpty(bytes: 1)
             try container.encode(color)
             try container.encode(duration)
         }
@@ -546,8 +536,6 @@ extension Light {
     public struct SetWaveform: LIFXMessage, LIFXEncodable {
         
         public static let messageType: UInt16 = 103
-        
-        public var reserved: UInt8
         
         public var transient: Bool
         
@@ -563,7 +551,7 @@ extension Light {
         
         public func encode(to encoder: LIFXEncoder) throws {
             var container = encoder.container()
-            try container.encode(reserved)
+            try container.encodeEmpty(bytes: 1)
             try container.encode(transient)
             try container.encode(color)
             try container.encode(period)
@@ -577,8 +565,6 @@ extension Light {
     public struct SetWaveformOptional: LIFXMessage, LIFXEncodable {
         
         public static let messageType: UInt16 = 119
-        
-        public var reserved: UInt8
         
         public var transient: Bool
         
@@ -602,7 +588,7 @@ extension Light {
         
         public func encode(to encoder: LIFXEncoder) throws {
             var container = encoder.container()
-            try container.encode(reserved)
+            try container.encodeEmpty(bytes: 1)
             try container.encode(transient)
             try container.encode(color)
             try container.encode(period)
@@ -623,21 +609,17 @@ extension Light {
         
         public var color: HSBK
         
-        public var reserved1: Int16
-        
         public var power: UInt16
         
         public var label: String
         
-        public var reserved2: UInt64
-        
         public init(from decoder: LIFXDecoder) throws {
             var container = decoder.container()
             color = try container.decode(HSBK.self)
-            reserved1 = try container.decode(Int16.self)
+            try container.decodeEmpty(bytes: 2)
             power = try container.decode(UInt16.self)
             label = try container.decodeString(bytes: 32)
-            reserved2 = try container.decode(UInt64.self)
+            try container.decodeEmpty(bytes: 8)
         }
         
     }
