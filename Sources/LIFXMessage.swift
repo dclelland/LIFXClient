@@ -39,6 +39,8 @@ extension Device {
         
         public static let messageType: UInt16 = 2
         
+        public init() { }
+        
         public func encode(to encoder: LIFXEncoder) throws { }
         
     }
@@ -70,6 +72,8 @@ extension Device {
         public static let messageSize: UInt16 = 0
         
         public static let messageType: UInt16 = 12
+        
+        public init() { }
         
         public func encode(to encoder: LIFXEncoder) throws { }
         
@@ -107,6 +111,8 @@ extension Device {
         
         public static let messageType: UInt16 = 14
         
+        public init() { }
+        
         public func encode(to encoder: LIFXEncoder) throws { }
         
     }
@@ -139,6 +145,8 @@ extension Device {
         public static let messageSize: UInt16 = 0
         
         public static let messageType: UInt16 = 16
+        
+        public init() { }
         
         public func encode(to encoder: LIFXEncoder) throws { }
         
@@ -176,6 +184,8 @@ extension Device {
         
         public static let messageType: UInt16 = 18
         
+        public init() { }
+        
         public func encode(to encoder: LIFXEncoder) throws { }
         
     }
@@ -209,6 +219,8 @@ extension Device {
         
         public static let messageType: UInt16 = 20
         
+        public init() { }
+        
         public func encode(to encoder: LIFXEncoder) throws { }
         
     }
@@ -220,6 +232,10 @@ extension Device {
         public static let messageType: UInt16 = 21
         
         public var level: UInt16
+        
+        public init(level: UInt16) {
+            self.level = level
+        }
         
         public func encode(to encoder: LIFXEncoder) throws {
             var container = encoder.container()
@@ -253,6 +269,8 @@ extension Device {
         
         public static let messageType: UInt16 = 23
         
+        public init() { }
+        
         public func encode(to encoder: LIFXEncoder) throws { }
         
     }
@@ -264,6 +282,10 @@ extension Device {
         public static let messageType: UInt16 = 24
         
         public var label: String
+        
+        public init(label: String) {
+            self.label = label
+        }
         
         public func encode(to encoder: LIFXEncoder) throws {
             var container = encoder.container()
@@ -296,6 +318,8 @@ extension Device {
         public static let messageSize: UInt16 = 0
         
         public static let messageType: UInt16 = 32
+        
+        public init() { }
         
         public func encode(to encoder: LIFXEncoder) throws { }
         
@@ -331,6 +355,8 @@ extension Device {
         public static let messageSize: UInt16 = 0
         
         public static let messageType: UInt16 = 34
+        
+        public init() { }
         
         public func encode(to encoder: LIFXEncoder) throws { }
         
@@ -381,6 +407,8 @@ extension Device {
         
         public static let messageType: UInt16 = 48
         
+        public init() { }
+        
         public func encode(to encoder: LIFXEncoder) throws { }
         
     }
@@ -396,6 +424,12 @@ extension Device {
         public var label: String
         
         public var updatedAt: Date
+        
+        public init(location: Data, label: String, updatedAt: Date) {
+            self.location = location
+            self.label = label
+            self.updatedAt = updatedAt
+        }
         
         public func encode(to encoder: LIFXEncoder) throws {
             var container = encoder.container()
@@ -453,6 +487,12 @@ extension Device {
         
         public var updatedAt: Date
         
+        public init(group: Data, label: String, updatedAt: Date) {
+            self.group = group
+            self.label = label
+            self.updatedAt = updatedAt
+        }
+        
         public func encode(to encoder: LIFXEncoder) throws {
             var container = encoder.container()
             try container.encodeData(group, bytes: 16)
@@ -494,6 +534,10 @@ extension Device {
         public static let messageType: UInt16 = 58
         
         public var payload: Data
+        
+        public init(payload: Data) {
+            self.payload = payload
+        }
         
         public func encode(to encoder: LIFXEncoder) throws {
             var container = encoder.container()
@@ -580,6 +624,8 @@ extension Light {
         
         public static let messageType: UInt16 = 101
         
+        public init() { }
+        
         public func encode(to encoder: LIFXEncoder) throws { }
         
     }
@@ -593,6 +639,11 @@ extension Light {
         public var color: HSBK
         
         public var duration: UInt32
+        
+        public init(color: HSBK, duration: UInt32) {
+            self.color = color
+            self.duration = duration
+        }
         
         public func encode(to encoder: LIFXEncoder) throws {
             var container = encoder.container()
@@ -620,6 +671,15 @@ extension Light {
         public var skewRatio: Int16
         
         public var waveform: Waveform
+        
+        public init(transient: Bool, color: HSBK, period: UInt32, cycles: Float32, skewRatio: Int16, waveform: Waveform) {
+            self.transient = transient
+            self.color = color
+            self.period = period
+            self.cycles = cycles
+            self.skewRatio = skewRatio
+            self.waveform = waveform
+        }
         
         public func encode(to encoder: LIFXEncoder) throws {
             var container = encoder.container()
@@ -659,6 +719,19 @@ extension Light {
         public var setBrightness: Bool
         
         public var setKelvin: Bool
+        
+        public init(transient: Bool, color: HSBK, period: UInt32, cycles: Float32, skewRatio: Int16, waveform: Waveform, setHue: Bool, setSaturation: Bool, setBrightness: Bool, setKelvin: Bool) {
+            self.transient = transient
+            self.color = color
+            self.period = period
+            self.cycles = cycles
+            self.skewRatio = skewRatio
+            self.waveform = waveform
+            self.setHue = setHue
+            self.setSaturation = setSaturation
+            self.setBrightness = setBrightness
+            self.setKelvin = setKelvin
+        }
         
         public func encode(to encoder: LIFXEncoder) throws {
             var container = encoder.container()
@@ -710,6 +783,8 @@ extension Light {
         
         public static let messageType: UInt16 = 116
         
+        public init() { }
+        
         public func encode(to encoder: LIFXEncoder) throws { }
         
     }
@@ -723,6 +798,11 @@ extension Light {
         public var level: UInt16
         
         public var duration: UInt32
+        
+        public init(level: UInt16, duration: UInt32) {
+            self.level = level
+            self.duration = duration
+        }
         
         public func encode(to encoder: LIFXEncoder) throws {
             var container = encoder.container()
@@ -757,22 +837,9 @@ extension Light {
         
         public static let messageType: UInt16 = 120
         
+        public init() { }
+        
         public func encode(to encoder: LIFXEncoder) throws { }
-        
-    }
-
-    public struct StateInfrared: LIFXDecodableMessage {
-        
-        public static let messageSize: UInt16 = 2
-        
-        public static let messageType: UInt16 = 121
-        
-        public var brightness: UInt16
-        
-        public init(from decoder: LIFXDecoder) throws {
-            var container = decoder.container()
-            brightness = try container.decode(UInt16.self)
-        }
         
     }
 
@@ -784,9 +851,28 @@ extension Light {
         
         public var brightness: UInt16
         
+        public init(brightness: UInt16) {
+            self.brightness = brightness
+        }
+        
         public func encode(to encoder: LIFXEncoder) throws {
             var container = encoder.container()
             try container.encode(brightness)
+        }
+        
+    }
+    
+    public struct StateInfrared: LIFXDecodableMessage {
+        
+        public static let messageSize: UInt16 = 2
+        
+        public static let messageType: UInt16 = 121
+        
+        public var brightness: UInt16
+        
+        public init(from decoder: LIFXDecoder) throws {
+            var container = decoder.container()
+            brightness = try container.decode(UInt16.self)
         }
         
     }
