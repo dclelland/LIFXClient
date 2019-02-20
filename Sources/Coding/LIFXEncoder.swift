@@ -35,12 +35,9 @@ extension LIFXEncoder {
 
 extension LIFXEncoder {
     
-    internal func write<T>(_ value: T) {
+    internal func write<T>(_ value: T) throws {
         var target = value
         withUnsafeBytes(of: &target) { pointer in
-            var test = Data()
-            test.append(contentsOf: pointer)
-            print("APPENDING", type(of: value), value, [UInt8](test))
             data.append(contentsOf: pointer)
         }
     }
@@ -48,6 +45,10 @@ extension LIFXEncoder {
 }
 
 extension LIFXEncoder {
+    
+    internal func encode(_ value: Data) throws {
+        data.append(value)
+    }
     
     internal func encode(_ value: LIFXEncodable) throws {
         try value.encode(to: self)
@@ -62,16 +63,16 @@ extension LIFXEncoder {
             throw Error.dataCorrupted("Invalid data count")
         }
         
-        self.data.append(data)
+        try encode(data)
     }
     
     internal func encodeEmpty(bytes: Int) throws {
-        try encodeData(Data(count: bytes), bytes: bytes)
+        try encode(Data(count: bytes))
     }
     
     internal func encodeString(_ string: String, bytes: Int) throws {
         guard let data = string.data(using: .utf8) else {
-            throw Error.dataCorrupted("Invalid data")
+            throw Error.dataCorrupted("Invalid string")
         }
         
         try encodeData(data, bytes: bytes)
