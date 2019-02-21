@@ -72,7 +72,7 @@ extension LIFXEncoder {
     }
     
     internal func encodeString(_ string: String, bytes: Int) throws {
-        guard let data = string.data(using: .utf8) else {
+        guard let data = string.padding(toLength: bytes, withPad: "\0", startingAt: 0).data(using: .utf8) else {
             throw Error.invalidString
         }
         
