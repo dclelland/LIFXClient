@@ -86,7 +86,7 @@ extension LIFXDecoder {
             throw Error.invalidString
         }
         
-        return string
+        return String(string.prefix(while: { $0 != "\0" }))
     }
     
 }
