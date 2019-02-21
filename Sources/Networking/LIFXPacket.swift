@@ -84,17 +84,17 @@ extension LIFXPacket: LIFXDecodable where Message: LIFXDecodable {
         
         // Frame address
         target = try container.decode(UInt64.self)
-        try container.decodeEmpty(bytes: 6)
+        try container.decodeEmpty(count: 6)
         let requirements = try container.decode(UInt8.self)
         acknowledgement = requirements & 0b0000_0010 != 0
         response = requirements & 0b0000_0001 != 0
         sequence = try container.decode(UInt8.self)
         
         // Protocol header
-        try container.decodeEmpty(bytes: 8)
+        try container.decodeEmpty(count: 8)
         let type = try container.decode(UInt16.self)
         guard type == Message.messageType else { throw Error.incorrectMessageType(expected: LIFXPacket.messageType, received: type) }
-        try container.decodeEmpty(bytes: 2)
+        try container.decodeEmpty(count: 2)
         
         // Payload
         message = try container.decode(Message.self)
@@ -114,14 +114,14 @@ extension LIFXPacket: LIFXEncodable where Message: LIFXEncodable {
         
         // Frame address
         try container.encode(target)
-        try container.encodeEmpty(bytes: 6)
+        try container.encodeEmpty(count: 6)
         try container.encode(UInt8((acknowledgement ? 0b0000_0010 : 0) | (response ? 0b0000_0001 : 0)))
         try container.encode(sequence)
         
         // Protocol header
-        try container.encodeEmpty(bytes: 8)
+        try container.encodeEmpty(count: 8)
         try container.encode(LIFXPacket.messageType)
-        try container.encodeEmpty(bytes: 2)
+        try container.encodeEmpty(count: 2)
         
         // Payload
         try container.encode(message)

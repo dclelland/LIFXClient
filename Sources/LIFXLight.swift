@@ -114,7 +114,7 @@ extension LIFXLight {
         
         public func encode(to encoder: LIFXEncoder) throws {
             var container = encoder.container()
-            try container.encodeEmpty(bytes: 1)
+            try container.encodeEmpty(count: 1)
             try container.encode(color)
             try container.encode(duration)
         }
@@ -152,7 +152,7 @@ extension LIFXLight {
         
         public func encode(to encoder: LIFXEncoder) throws {
             var container = encoder.container()
-            try container.encodeEmpty(bytes: 1)
+            try container.encodeEmpty(count: 1)
             try container.encode(transient)
             try container.encode(color)
             try container.encode(period)
@@ -206,7 +206,7 @@ extension LIFXLight {
         
         public func encode(to encoder: LIFXEncoder) throws {
             var container = encoder.container()
-            try container.encodeEmpty(bytes: 1)
+            try container.encodeEmpty(count: 1)
             try container.encode(transient)
             try container.encode(color)
             try container.encode(period)
@@ -236,10 +236,10 @@ extension LIFXLight {
         public init(from decoder: LIFXDecoder) throws {
             var container = decoder.container()
             color = try container.decode(HSBK.self)
-            try container.decodeEmpty(bytes: 2)
+            try container.decodeEmpty(count: 2)
             power = try container.decode(UInt16.self)
-            label = try container.decodeString(bytes: 32)
-            try container.decodeEmpty(bytes: 8)
+            label = try container.decodeString(count: 32)
+            try container.decodeEmpty(count: 8)
         }
         
     }

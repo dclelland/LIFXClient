@@ -91,7 +91,7 @@ extension LIFXDevice {
             signal = try container.decode(Float32.self)
             tx = try container.decode(UInt32.self)
             rx = try container.decode(UInt32.self)
-            try container.decodeEmpty(bytes: 2)
+            try container.decodeEmpty(count: 2)
         }
         
     }
@@ -133,7 +133,7 @@ extension LIFXDevice {
         public init(from decoder: LIFXDecoder) throws {
             var container = decoder.container()
             build = try container.decode(Date.self)
-            try container.decodeEmpty(bytes: 8)
+            try container.decodeEmpty(count: 8)
             version = try container.decode(UInt32.self)
         }
         
@@ -180,7 +180,7 @@ extension LIFXDevice {
             signal = try container.decode(Float32.self)
             tx = try container.decode(UInt32.self)
             rx = try container.decode(UInt32.self)
-            try container.decodeEmpty(bytes: 2)
+            try container.decodeEmpty(count: 2)
         }
         
     }
@@ -222,7 +222,7 @@ extension LIFXDevice {
         public init(from decoder: LIFXDecoder) throws {
             var container = decoder.container()
             build = try container.decode(Date.self)
-            try container.decodeEmpty(bytes: 8)
+            try container.decodeEmpty(count: 8)
             version = try container.decode(UInt32.self)
         }
         
@@ -336,7 +336,7 @@ extension LIFXDevice {
         
         public func encode(to encoder: LIFXEncoder) throws {
             var container = encoder.container()
-            try container.encodeString(label, bytes: 32)
+            try container.encodeString(label, count: 32)
         }
         
     }
@@ -351,7 +351,7 @@ extension LIFXDevice {
         
         public init(from decoder: LIFXDecoder) throws {
             var container = decoder.container()
-            label = try container.decodeString(bytes: 32)
+            label = try container.decodeString(count: 32)
         }
         
     }
@@ -500,8 +500,8 @@ extension LIFXDevice {
         
         public func encode(to encoder: LIFXEncoder) throws {
             var container = encoder.container()
-            try container.encodeData(location, bytes: 16)
-            try container.encodeString(label, bytes: 32)
+            try container.encodeData(location, count: 16)
+            try container.encodeString(label, count: 32)
             try container.encode(updatedAt)
         }
         
@@ -521,8 +521,8 @@ extension LIFXDevice {
         
         public init(from decoder: LIFXDecoder) throws {
             var container = decoder.container()
-            location = try container.decodeData(bytes: 16)
-            label = try container.decodeString(bytes: 32)
+            location = try container.decodeData(count: 16)
+            label = try container.decodeString(count: 32)
             updatedAt = try container.decode(Date.self)
         }
         
@@ -582,8 +582,8 @@ extension LIFXDevice {
         
         public func encode(to encoder: LIFXEncoder) throws {
             var container = encoder.container()
-            try container.encodeData(group, bytes: 16)
-            try container.encodeString(label, bytes: 32)
+            try container.encodeData(group, count: 16)
+            try container.encodeString(label, count: 32)
             try container.encode(updatedAt)
         }
         
@@ -603,8 +603,8 @@ extension LIFXDevice {
         
         public init(from decoder: LIFXDecoder) throws {
             var container = decoder.container()
-            group = try container.decodeData(bytes: 16)
-            label = try container.decodeString(bytes: 32)
+            group = try container.decodeData(count: 16)
+            label = try container.decodeString(count: 32)
             updatedAt = try container.decode(Date.self)
         }
         
@@ -646,7 +646,7 @@ extension LIFXDevice {
         
         public func encode(to encoder: LIFXEncoder) throws {
             var container = encoder.container()
-            try container.encodeData(payload, bytes: 64)
+            try container.encodeData(payload, count: 64)
         }
         
     }
@@ -661,7 +661,7 @@ extension LIFXDevice {
         
         public init(from decoder: LIFXDecoder) throws {
             var container = decoder.container()
-            payload = try container.decodeData(bytes: 64)
+            payload = try container.decodeData(count: 64)
         }
         
     }

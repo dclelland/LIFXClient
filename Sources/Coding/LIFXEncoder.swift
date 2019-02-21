@@ -59,24 +59,24 @@ extension LIFXEncoder {
 
 extension LIFXEncoder {
     
-    internal func encodeData(_ data: Data, bytes: Int) throws {
-        guard data.count == bytes else {
-            throw Error.dataCountMismatch(received: data.count, expected: bytes)
+    internal func encodeData(_ data: Data, count: Int) throws {
+        guard data.count == count else {
+            throw Error.dataCountMismatch(received: data.count, expected: count)
         }
         
         try encode(data)
     }
     
-    internal func encodeEmpty(bytes: Int) throws {
-        try encode(Data(count: bytes))
+    internal func encodeEmpty(count: Int) throws {
+        try encode(Data(count: count))
     }
     
-    internal func encodeString(_ string: String, bytes: Int) throws {
-        guard let data = string.padding(toLength: bytes, withPad: "\0", startingAt: 0).data(using: .utf8) else {
+    internal func encodeString(_ string: String, count: Int) throws {
+        guard let data = string.padding(toLength: count, withPad: "\0", startingAt: 0).data(using: .utf8) else {
             throw Error.encodingFailed(message: "Invalid string")
         }
         
-        try encodeData(data, bytes: bytes)
+        try encodeData(data, count: count)
     }
     
 }
@@ -99,16 +99,16 @@ extension LIFXEncoder {
             try encoder.encode(value)
         }
         
-        mutating func encodeData(_ data: Data, bytes: Int) throws {
-            try encoder.encodeData(data, bytes: bytes)
+        mutating func encodeData(_ data: Data, count: Int) throws {
+            try encoder.encodeData(data, count: count)
         }
         
-        mutating func encodeEmpty(bytes: Int) throws {
-            try encoder.encodeEmpty(bytes: bytes)
+        mutating func encodeEmpty(count: Int) throws {
+            try encoder.encodeEmpty(count: count)
         }
         
-        mutating func encodeString(_ string: String, bytes: Int) throws {
-            try encoder.encodeString(string, bytes: bytes)
+        mutating func encodeString(_ string: String, count: Int) throws {
+            try encoder.encodeString(string, count: count)
         }
         
     }

@@ -32,20 +32,20 @@ extension LIFXDecoder {
 
 extension LIFXDecoder {
     
-    internal func read(bytes: Int) throws -> Data {
-        guard cursor + bytes <= data.count else {
+    internal func read(count: Int) throws -> Data {
+        guard cursor + count <= data.count else {
             throw Error.endOfData
         }
         
         defer {
-            cursor += bytes
+            cursor += count
         }
         
-        return data[cursor..<(cursor + bytes)]
+        return data[cursor..<(cursor + count)]
     }
     
     internal func read<T>(_ type: T.Type) throws -> T {
-        let data = try read(bytes: MemoryLayout<T>.size)
+        let data = try read(count: MemoryLayout<T>.size)
         return data.withUnsafeBytes { pointer in
             return pointer.pointee
         }
@@ -71,16 +71,16 @@ extension LIFXDecoder {
 
 extension LIFXDecoder {
     
-    internal func decodeData(bytes: Int) throws -> Data {
-        return try read(bytes: bytes)
+    internal func decodeData(count: Int) throws -> Data {
+        return try read(count: count)
     }
     
-    internal func decodeEmpty(bytes: Int) throws {
-        _ = try read(bytes: bytes)
+    internal func decodeEmpty(count: Int) throws {
+        _ = try read(count: count)
     }
     
-    internal func decodeString(bytes: Int) throws -> String {
-        guard let string = String(bytes: try read(bytes: bytes), encoding: .utf8) else {
+    internal func decodeString(count: Int) throws -> String {
+        guard let string = String(bytes: try read(count: count), encoding: .utf8) else {
             throw Error.decodingFailed(message: "Invalid string")
         }
         
@@ -107,16 +107,16 @@ extension LIFXDecoder {
             return try decoder.decode(type)
         }
         
-        mutating func decodeData(bytes: Int) throws -> Data {
-            return try decoder.decodeData(bytes: bytes)
+        mutating func decodeData(count: Int) throws -> Data {
+            return try decoder.decodeData(count: count)
         }
         
-        mutating func decodeEmpty(bytes: Int) throws {
-            try decoder.decodeEmpty(bytes: bytes)
+        mutating func decodeEmpty(count: Int) throws {
+            try decoder.decodeEmpty(count: count)
         }
         
-        mutating func decodeString(bytes: Int) throws -> String {
-            return try decoder.decodeString(bytes: bytes)
+        mutating func decodeString(count: Int) throws -> String {
+            return try decoder.decodeString(count: count)
         }
         
     }
