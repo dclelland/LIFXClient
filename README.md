@@ -12,7 +12,6 @@ Documentation: https://lan.developer.lifx.com
 - Discovery issue (try Wireshark)
 - Review how `source` and `tagged`/`target` are set
 - Set up readme and publish
-- Add documentation and publish release
 
 ## Wishlist
 
