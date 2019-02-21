@@ -23,9 +23,7 @@ extension LIFXDecoder {
     
     public enum Error: Swift.Error {
         
-        case invalidBool
-        case invalidRawValue
-        case invalidString
+        case decodingFailed(message: String)
         case endOfData
         
     }
@@ -83,7 +81,7 @@ extension LIFXDecoder {
     
     internal func decodeString(bytes: Int) throws -> String {
         guard let string = String(bytes: try read(bytes: bytes), encoding: .utf8) else {
-            throw Error.invalidString
+            throw Error.decodingFailed(message: "Invalid string")
         }
         
         return String(string.prefix(while: { $0 != "\0" }))

@@ -8,7 +8,6 @@ Documentation: https://lan.developer.lifx.com
 
 ## Todo
 
-- Review whether some requests should just be synchronous `send` calls
 - Figure out cycles and skew ratios (only pulse waveforms have skew ratios)
 - Tidy up errors
 - Discovery issue (try Wireshark)

@@ -17,8 +17,8 @@ extension LIFXEncoder {
     
     public enum Error: Swift.Error {
         
-        case invalidByteCount(received: Int, expected: Int)
-        case invalidString
+        case encodingFailed(message: String)
+        case dataCountMismatch(received: Int, expected: Int)
         
     }
     
@@ -61,7 +61,7 @@ extension LIFXEncoder {
     
     internal func encodeData(_ data: Data, bytes: Int) throws {
         guard data.count == bytes else {
-            throw Error.invalidByteCount(received: data.count, expected: bytes)
+            throw Error.dataCountMismatch(received: data.count, expected: bytes)
         }
         
         try encode(data)
@@ -73,7 +73,7 @@ extension LIFXEncoder {
     
     internal func encodeString(_ string: String, bytes: Int) throws {
         guard let data = string.padding(toLength: bytes, withPad: "\0", startingAt: 0).data(using: .utf8) else {
-            throw Error.invalidString
+            throw Error.encodingFailed(message: "Invalid string")
         }
         
         try encodeData(data, bytes: bytes)

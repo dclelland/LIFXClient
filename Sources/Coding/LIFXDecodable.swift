@@ -17,7 +17,7 @@ extension LIFXDecodable where Self: RawRepresentable, Self.RawValue: LIFXDecodab
     
     public init(from decoder: LIFXDecoder) throws {
         guard let value = Self(rawValue: try RawValue(from: decoder)) else {
-            throw LIFXDecoder.Error.invalidRawValue
+            throw LIFXDecoder.Error.decodingFailed(message: "Invalid raw value")
         }
         
         self = value
@@ -122,10 +122,8 @@ extension Bool: LIFXDecodable {
         switch try container.decode(UInt8.self) {
         case 0:
             self = false
-        case 1:
-            self = true
         default:
-            throw LIFXDecoder.Error.invalidBool
+            self = true
         }
     }
     
