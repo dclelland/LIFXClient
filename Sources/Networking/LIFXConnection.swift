@@ -36,11 +36,11 @@ extension LIFXConnection {
         }
     }
     
-    public func requestPacket<Request: LIFXEncodableMessage, Response: LIFXDecodableMessage>(_ packet: LIFXPacket<Request>) -> Promise<LIFXPacket<Response>> {
+    public func requestPacket<Request: LIFXEncodableMessage>(_ packet: LIFXPacket<Request>) -> Promise<LIFXPacket<Request.Response>> {
         return firstly {
             return connection.request(try LIFXEncoder.encode(packet))
         }.map { data in
-            return try LIFXDecoder.decode(LIFXPacket<Response>.self, data: data)
+            return try LIFXDecoder.decode(LIFXPacket<Request.Response>.self, data: data)
         }
     }
     
@@ -58,7 +58,7 @@ extension LIFXConnection {
         }
     }
     
-    public func requestMessage<Request: LIFXEncodableMessage, Response: LIFXDecodableMessage>(_ request: Request) -> Promise<Response> {
+    public func requestMessage<Request: LIFXEncodableMessage>(_ request: Request) -> Promise<Request.Response> {
         return requestPacket(LIFXPacket(source: source, response: true, message: request)).map { packet in
             return packet.message
         }

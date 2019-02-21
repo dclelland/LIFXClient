@@ -9,9 +9,15 @@ import Foundation
 
 public typealias LIFXCodableMessage = LIFXMessage & LIFXCodable
 
-public typealias LIFXDecodableMessage = LIFXMessage & LIFXDecodable
+public protocol LIFXEncodableMessage: LIFXMessage, LIFXEncodable {
+    
+    associatedtype Response: LIFXDecodableMessage
+    
+}
 
-public typealias LIFXEncodableMessage = LIFXMessage & LIFXEncodable
+public protocol LIFXDecodableMessage: LIFXMessage, LIFXDecodable {
+    
+}
 
 public protocol LIFXMessage {
     

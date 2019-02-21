@@ -20,6 +20,8 @@ extension LIFXDevice {
     
     public struct GetService: LIFXEncodableMessage {
         
+        public typealias Response = StateService
+        
         public static let messageSize: UInt16 = 0
         
         public static let messageType: UInt16 = 2
@@ -59,6 +61,8 @@ extension LIFXDevice {
 extension LIFXDevice {
     
     public struct GetHostInfo: LIFXEncodableMessage {
+        
+        public typealias Response = StateHostInfo
         
         public static let messageSize: UInt16 = 0
         
@@ -104,6 +108,8 @@ extension LIFXDevice {
     
     public struct GetHostFirmware: LIFXEncodableMessage {
         
+        public typealias Response = StateHostFirmware
+        
         public static let messageSize: UInt16 = 0
         
         public static let messageType: UInt16 = 14
@@ -144,6 +150,8 @@ extension LIFXDevice {
 extension LIFXDevice {
     
     public struct GetWifiInfo: LIFXEncodableMessage {
+        
+        public typealias Response = StateWifiInfo
         
         public static let messageSize: UInt16 = 0
         
@@ -189,6 +197,8 @@ extension LIFXDevice {
     
     public struct GetWifiFirmware: LIFXEncodableMessage {
         
+        public typealias Response = StateWifiFirmware
+        
         public static let messageSize: UInt16 = 0
         
         public static let messageType: UInt16 = 18
@@ -230,6 +240,8 @@ extension LIFXDevice {
     
     public struct GetPower: LIFXEncodableMessage {
         
+        public typealias Response = StatePower
+        
         public static let messageSize: UInt16 = 0
         
         public static let messageType: UInt16 = 20
@@ -241,6 +253,8 @@ extension LIFXDevice {
     }
     
     public struct SetPower: LIFXEncodableMessage {
+        
+        public typealias Response = StatePower
         
         public static let messageSize: UInt16 = 2
         
@@ -279,7 +293,7 @@ extension LIFXDevice {
             GetPower()
         )
     }
-    
+
     public func setPower(on: Bool) -> Promise<StatePower> {
         return requestMessage(
             SetPower(
@@ -294,6 +308,8 @@ extension LIFXDevice {
     
     public struct GetLabel: LIFXEncodableMessage {
         
+        public typealias Response = StateLabel
+        
         public static let messageSize: UInt16 = 0
         
         public static let messageType: UInt16 = 23
@@ -305,6 +321,8 @@ extension LIFXDevice {
     }
     
     public struct SetLabel: LIFXEncodableMessage {
+        
+        public typealias Response = StateLabel
         
         public static let messageSize: UInt16 = 32
         
@@ -343,7 +361,7 @@ extension LIFXDevice {
             GetLabel()
         )
     }
-    
+
     public func setLabel(label: String) -> Promise<StateLabel> {
         return requestMessage(
             SetLabel(
@@ -357,6 +375,8 @@ extension LIFXDevice {
 extension LIFXDevice {
     
     public struct GetVersion: LIFXEncodableMessage {
+        
+        public typealias Response = StateVersion
         
         public static let messageSize: UInt16 = 0
         
@@ -401,6 +421,8 @@ extension LIFXDevice {
     
     public struct GetInfo: LIFXEncodableMessage {
         
+        public typealias Response = StateInfo
+        
         public static let messageSize: UInt16 = 0
         
         public static let messageType: UInt16 = 34
@@ -444,6 +466,8 @@ extension LIFXDevice {
     
     public struct GetLocation: LIFXEncodableMessage {
         
+        public typealias Response = StateLocation
+        
         public static let messageSize: UInt16 = 0
         
         public static let messageType: UInt16 = 48
@@ -455,6 +479,8 @@ extension LIFXDevice {
     }
     
     public struct SetLocation: LIFXEncodableMessage {
+        
+        public typealias Response = StateLocation
         
         public static let messageSize: UInt16 = 56
         
@@ -507,7 +533,7 @@ extension LIFXDevice {
             GetLocation()
         )
     }
-    
+
     public func setLocation(location: Data, label: String, updatedAt: Date) -> Promise<StateLocation> {
         return requestMessage(
             SetLocation(
@@ -524,6 +550,8 @@ extension LIFXDevice {
     
     public struct GetGroup: LIFXEncodableMessage {
         
+        public typealias Response = StateGroup
+        
         public static let messageSize: UInt16 = 0
         
         public static let messageType: UInt16 = 51
@@ -533,6 +561,8 @@ extension LIFXDevice {
     }
     
     public struct SetGroup: LIFXEncodableMessage {
+        
+        public typealias Response = StateGroup
         
         public static let messageSize: UInt16 = 56
         
@@ -585,7 +615,7 @@ extension LIFXDevice {
             GetGroup()
         )
     }
-    
+
     public func setGroup(group: Data, label: String, updatedAt: Date) -> Promise<StateGroup> {
         return requestMessage(
             SetGroup(
@@ -601,6 +631,8 @@ extension LIFXDevice {
 extension LIFXDevice {
     
     public struct EchoRequest: LIFXEncodableMessage {
+        
+        public typealias Response = EchoResponse
         
         public static let messageSize: UInt16 = 64
         

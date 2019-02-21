@@ -83,6 +83,8 @@ extension LIFXLight {
     
     public struct Get: LIFXEncodableMessage {
         
+        public typealias Response = State
+        
         public static let messageSize: UInt16 = 0
         
         public static let messageType: UInt16 = 101
@@ -94,6 +96,8 @@ extension LIFXLight {
     }
     
     public struct SetColor: LIFXEncodableMessage {
+        
+        public typealias Response = State
         
         public static let messageSize: UInt16 = 13
         
@@ -118,6 +122,8 @@ extension LIFXLight {
     }
     
     public struct SetWaveform: LIFXEncodableMessage {
+        
+        public typealias Response = State
         
         public static let messageSize: UInt16 = 21
         
@@ -158,6 +164,8 @@ extension LIFXLight {
     }
     
     public struct SetWaveformOptional: LIFXEncodableMessage {
+        
+        public typealias Response = State
         
         public static let messageSize: UInt16 = 25
         
@@ -241,7 +249,7 @@ extension LIFXLight {
             Get()
         )
     }
-    
+
     public func setColor(color: UIColor, kelvin: UInt16 = HSBK.neutralKelvin, duration: TimeInterval = 0.0) -> Promise<State> {
         return requestMessage(
             SetColor(
@@ -253,7 +261,7 @@ extension LIFXLight {
             )
         )
     }
-    
+
     public func setWaveform(transient: Bool = false, color: UIColor, kelvin: UInt16 = HSBK.neutralKelvin, period: TimeInterval, cycles: Float32 = .infinity, skewRatio: Int16 = 0, waveform: Waveform) -> Promise<State> {
         return requestMessage(
             SetWaveform(
@@ -269,7 +277,7 @@ extension LIFXLight {
             )
         )
     }
-    
+
     public func setWaveformOptional(transient: Bool = false, color: UIColor, kelvin: UInt16 = HSBK.neutralKelvin, period: UInt32, cycles: Float32 = .infinity, skewRatio: Int16 = 0, waveform: Waveform, setHue: Bool = false, setSaturation: Bool = false, setBrightness: Bool = false, setKelvin: Bool = false) -> Promise<State> {
         return requestMessage(
             SetWaveformOptional(
@@ -296,6 +304,8 @@ extension LIFXLight {
     
     public struct GetPower: LIFXEncodableMessage {
         
+        public typealias Response = StatePower
+        
         public static let messageSize: UInt16 = 0
         
         public static let messageType: UInt16 = 116
@@ -307,6 +317,8 @@ extension LIFXLight {
     }
     
     public struct SetPower: LIFXEncodableMessage {
+        
+        public typealias Response = StatePower
         
         public static let messageSize: UInt16 = 6
         
@@ -349,7 +361,7 @@ extension LIFXLight {
             GetPower()
         )
     }
-    
+
     public func setPower(on: Bool, duration: TimeInterval = 0.0) -> Promise<StatePower> {
         return requestMessage(
             SetPower(
@@ -365,6 +377,8 @@ extension LIFXLight {
     
     public struct GetInfrared: LIFXEncodableMessage {
         
+        public typealias Response = StateInfrared
+        
         public static let messageSize: UInt16 = 0
         
         public static let messageType: UInt16 = 120
@@ -376,6 +390,8 @@ extension LIFXLight {
     }
     
     public struct SetInfrared: LIFXEncodableMessage {
+        
+        public typealias Response = StateInfrared
         
         public static let messageSize: UInt16 = 2
         
@@ -407,12 +423,6 @@ extension LIFXLight {
             brightness = try container.decode(UInt16.self)
         }
         
-    }
-    
-    public func getInfrared() -> Promise<StateInfrared> {
-        return requestMessage(
-            GetInfrared()
-        )
     }
     
     public func setInfrared(brightness: Double) -> Promise<StateInfrared> {
