@@ -262,7 +262,7 @@ extension LIFXLight {
         )
     }
 
-    public func setWaveform(transient: Bool = false, color: UIColor, kelvin: UInt16 = HSBK.neutralKelvin, period: TimeInterval, cycles: Float32 = .infinity, skewRatio: Int16 = 0, waveform: Waveform) -> Promise<State> {
+    public func setWaveform(transient: Bool = false, color: UIColor, kelvin: UInt16 = HSBK.neutralKelvin, period: TimeInterval, cycles: Double = .infinity, skewRatio: Int16 = 0, waveform: Waveform) -> Promise<State> {
         return requestMessage(
             SetWaveform(
                 transient: transient,
@@ -271,14 +271,14 @@ extension LIFXLight {
                     kelvin: kelvin
                 ),
                 period: UInt32(period * 1000.0),
-                cycles: cycles,
+                cycles: Float32(cycles),
                 skewRatio: skewRatio,
                 waveform: waveform
             )
         )
     }
 
-    public func setWaveformOptional(transient: Bool = false, color: UIColor, kelvin: UInt16 = HSBK.neutralKelvin, period: TimeInterval, cycles: Float32 = .infinity, skewRatio: Int16 = 0, waveform: Waveform, setHue: Bool = false, setSaturation: Bool = false, setBrightness: Bool = false, setKelvin: Bool = false) -> Promise<State> {
+    public func setWaveformOptional(transient: Bool = false, color: UIColor, kelvin: UInt16 = HSBK.neutralKelvin, period: TimeInterval, cycles: Double = .infinity, skewRatio: Int16 = 0, waveform: Waveform, setHue: Bool = false, setSaturation: Bool = false, setBrightness: Bool = false, setKelvin: Bool = false) -> Promise<State> {
         return requestMessage(
             SetWaveformOptional(
                 transient: transient,
@@ -287,7 +287,7 @@ extension LIFXLight {
                     kelvin: kelvin
                 ),
                 period: UInt32(period * 1000.0),
-                cycles: cycles,
+                cycles: Float32(cycles),
                 skewRatio: skewRatio,
                 waveform: waveform,
                 setHue: setHue,
