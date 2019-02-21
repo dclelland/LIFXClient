@@ -7,8 +7,6 @@
 
 import Foundation
 
-public typealias LIFXCodableMessage = LIFXMessage & LIFXCodable
-
 public protocol LIFXEncodableMessage: LIFXMessage, LIFXEncodable {
     
     associatedtype Response: LIFXDecodableMessage
