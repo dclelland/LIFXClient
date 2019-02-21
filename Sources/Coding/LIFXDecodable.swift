@@ -29,7 +29,7 @@ extension UInt8: LIFXDecodable {
     
     public init(from decoder: LIFXDecoder) throws {
         var container = decoder.container()
-        self = try container.read(UInt8.self)
+        self.init(littleEndian: try container.read(UInt8.self))
     }
     
 }
@@ -38,7 +38,7 @@ extension Int8: LIFXDecodable {
     
     public init(from decoder: LIFXDecoder) throws {
         var container = decoder.container()
-        self = try container.read(Int8.self)
+        self.init(littleEndian: try container.read(Int8.self))
     }
     
 }
@@ -47,7 +47,7 @@ extension UInt16: LIFXDecodable {
     
     public init(from decoder: LIFXDecoder) throws {
         var container = decoder.container()
-        self = try container.read(UInt16.self)
+        self.init(littleEndian: try container.read(UInt16.self))
     }
     
 }
@@ -56,7 +56,7 @@ extension Int16: LIFXDecodable {
     
     public init(from decoder: LIFXDecoder) throws {
         var container = decoder.container()
-        self = try container.read(Int16.self)
+        self.init(littleEndian: try container.read(Int16.self))
     }
     
 }
@@ -65,7 +65,7 @@ extension UInt32: LIFXDecodable {
     
     public init(from decoder: LIFXDecoder) throws {
         var container = decoder.container()
-        self = try container.read(UInt32.self)
+        self.init(littleEndian: try container.read(UInt32.self))
     }
     
 }
@@ -74,7 +74,7 @@ extension Int32: LIFXDecodable {
     
     public init(from decoder: LIFXDecoder) throws {
         var container = decoder.container()
-        self = try container.read(Int32.self)
+        self.init(littleEndian: try container.read(Int32.self))
     }
     
 }
@@ -83,7 +83,7 @@ extension UInt64: LIFXDecodable {
     
     public init(from decoder: LIFXDecoder) throws {
         var container = decoder.container()
-        self = try container.read(UInt64.self)
+        self.init(littleEndian: try container.read(UInt64.self))
     }
     
 }
@@ -92,7 +92,7 @@ extension Int64: LIFXDecodable {
     
     public init(from decoder: LIFXDecoder) throws {
         var container = decoder.container()
-        self = try container.read(Int64.self)
+        self.init(littleEndian: try container.read(Int64.self))
     }
     
 }
