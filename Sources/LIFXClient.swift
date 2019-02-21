@@ -11,7 +11,7 @@ import PromiseKit
 
 public class LIFXClient: LIFXConnection {
     
-    public class func connect(host: NWEndpoint.Host = .ipv4(.broadcast), port: NWEndpoint.Port = 56700, queue: DispatchQueue = DispatchQueue(label: "LIFX Queue"), source: UInt32 = UInt32.random(in: UInt32.min...UInt32.max)) -> Promise<LIFXConnection> {
+    public class func connect(host: NWEndpoint.Host = .ipv4(.broadcast), port: NWEndpoint.Port = 56700, queue: DispatchQueue = DispatchQueue(label: "LIFX Queue"), source: UInt32 = UInt32.random()) -> Promise<LIFXConnection> {
         return NWConnection(host: host, port: port, using: .udp).connect(queue: queue).map { connection in
             return LIFXConnection(connection: connection, source: source)
         }
