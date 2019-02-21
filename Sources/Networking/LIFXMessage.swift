@@ -7,13 +7,11 @@
 
 import Foundation
 
+public protocol LIFXDecodableMessage: LIFXMessage, LIFXDecodable { }
+
 public protocol LIFXEncodableMessage: LIFXMessage, LIFXEncodable {
     
     associatedtype Response: LIFXDecodableMessage
-    
-}
-
-public protocol LIFXDecodableMessage: LIFXMessage, LIFXDecodable {
     
 }
 
