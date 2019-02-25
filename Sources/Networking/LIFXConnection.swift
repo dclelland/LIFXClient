@@ -15,9 +15,12 @@ public class LIFXConnection {
     
     public var source: UInt32
     
-    public required init(connection: NWConnection, source: UInt32) {
+    public var target: UInt64
+    
+    public required init(connection: NWConnection, source: UInt32, target: UInt64) {
         self.connection = connection
         self.source = source
+        self.target = target
     }
     
 }
@@ -49,7 +52,7 @@ extension LIFXConnection {
 extension LIFXConnection {
     
     public func sendMessage<Request: LIFXEncodableMessage>(_ request: Request) -> Promise<Void> {
-        return sendPacket(LIFXPacket(source: source, message: request))
+        return sendPacket(LIFXPacket(tagged: target == 0, source: source, target: target, response: false, message: request))
     }
     
     public func receiveMessage<Response: LIFXDecodableMessage>() -> Promise<Response> {
@@ -59,9 +62,23 @@ extension LIFXConnection {
     }
     
     public func requestMessage<Request: LIFXEncodableMessage>(_ request: Request) -> Promise<Request.Response> {
-        return requestPacket(LIFXPacket(source: source, response: true, message: request)).map { packet in
+        return requestPacket(LIFXPacket(tagged: target == 0, source: source, target: target, response: true, message: request)).map { packet in
             return packet.message
         }
     }
     
+}
+
+extension LIFXConnection {
+
+    public struct Acknowledgement: LIFXDecodableMessage {
+        
+        public static let messageSize: UInt16 = 0
+        
+        public static let messageType: UInt16 = 45
+        
+        public init(from decoder: LIFXDecoder) throws { }
+        
+    }
+
 }

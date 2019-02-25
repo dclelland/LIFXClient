@@ -11,22 +11,26 @@ import PromiseKit
 
 public class LIFXClient: LIFXConnection {
     
-    public class func connect(host: NWEndpoint.Host = .ipv4(.broadcast), port: NWEndpoint.Port = 56700, queue: DispatchQueue = DispatchQueue(label: "LIFX Queue"), source: UInt32 = UInt32.random()) -> Promise<LIFXConnection> {
+    public class func connect(host: NWEndpoint.Host = .ipv4(.broadcast), port: NWEndpoint.Port = 56700, queue: DispatchQueue = DispatchQueue(label: "LIFX Queue"), source: UInt32 = UInt32.random()) -> Promise<LIFXClient> {
         return NWConnection(host: host, port: port, using: .udp).connect(queue: queue).map { connection in
-            return LIFXConnection(connection: connection, source: source)
+            return LIFXClient(connection: connection, source: source, target: 0)
         }
     }
     
 }
 
-extension LIFXConnection {
+extension LIFXClient {
     
-    public var device: LIFXDevice {
-        return LIFXDevice(connection: connection, source: source)
+    public func getDevice() -> Promise<LIFXDevice> {
+        return requestPacket(LIFXPacket(tagged: true, source: source, target: target, response: true, message: LIFXDevice.GetService())).map { packet in
+            return LIFXDevice(connection: self.connection, source: self.source, target: packet.target)
+        }
     }
     
-    public var light: LIFXLight {
-        return LIFXLight(connection: connection, source: source)
+    public func getLight() -> Promise<LIFXLight> {
+        return requestPacket(LIFXPacket(tagged: true, source: source, target: target, response: true, message: LIFXDevice.GetService())).map { packet in
+            return LIFXLight(connection: self.connection, source: self.source, target: packet.target)
+        }
     }
     
 }

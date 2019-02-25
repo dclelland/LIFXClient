@@ -29,7 +29,7 @@ public struct LIFXPacket<Message: LIFXMessage> {
     
     public var message: Message
     
-    public init(origin: UInt8 = 0, tagged: Bool = true, addressable: Bool = true, protocol: UInt16 = 1024, source: UInt32 = 0, target: UInt64 = 0, acknowledgement: Bool = false, response: Bool = false, sequence: UInt8 = 0, message: Message) {
+    public init(origin: UInt8 = 0, tagged: Bool, addressable: Bool = true, protocol: UInt16 = 1024, source: UInt32, target: UInt64, acknowledgement: Bool = false, response: Bool, sequence: UInt8 = 0, message: Message) {
         self.origin = origin
         self.tagged = tagged
         self.addressable = addressable
