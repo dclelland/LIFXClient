@@ -424,6 +424,12 @@ extension LIFXLight {
         }
         
     }
+
+    public func getInfrared() -> Promise<StateInfrared> {
+        return requestMessage(
+            GetInfrared()
+        )
+    }
     
     public func setInfrared(brightness: Double) -> Promise<StateInfrared> {
         return requestMessage(
