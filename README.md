@@ -4,12 +4,7 @@ Swift client for the LIFX UDP protocol, based on PromiseKit and Apple's Network 
 
 ## Links
 
-Documentation: https://lan.developer.lifx.com
-
-## Todo
-
-- Double StateService response issue: https://community.lifx.com/t/lan-protocol-doesnt-seem-to-match-the-documentation/1913
-- Set up readme and publish
+- LIFX LAN protocol: https://lan.developer.lifx.com
 
 ## Documentation
 
