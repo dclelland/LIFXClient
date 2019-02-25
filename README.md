@@ -8,7 +8,7 @@ Documentation: https://lan.developer.lifx.com
 
 ## Todo
 
-- Discovery issue (try Wireshark)
+- Double StateService response issue
 - Set up readme and publish
 
 ## Documentation
@@ -57,6 +57,5 @@ client.light.setInfrared(brightness: Double)
 
 ## Wishlist
 
-- Double StateService response issue
 - Sort out discovery issue: Apple's Network framework doesn't support UDP broadcast packets: https://forums.developer.apple.com/thread/104076
 - macOS compatibility
