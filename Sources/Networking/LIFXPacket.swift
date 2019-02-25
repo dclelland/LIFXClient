@@ -74,7 +74,9 @@ extension LIFXPacket: LIFXDecodable where Message: LIFXDecodable {
         
         // Frame
         let size = try container.decode(UInt16.self)
-        guard size == LIFXPacket.packetSize else { throw Error.incorrectPacketSize(expected: LIFXPacket.packetSize, received: size) }
+        guard size == LIFXPacket.packetSize else {
+            throw Error.incorrectPacketSize(expected: LIFXPacket.packetSize, received: size)
+        }
         let frame = try container.decode(UInt16.self)
         origin = UInt8(frame & 0b1100_0000_0000_0000 >> 14)
         tagged = frame & 0b0010_0000_0000_0000 != 0
@@ -93,7 +95,9 @@ extension LIFXPacket: LIFXDecodable where Message: LIFXDecodable {
         // Protocol header
         try container.decodeEmpty(count: 8)
         let type = try container.decode(UInt16.self)
-        guard type == Message.messageType else { throw Error.incorrectMessageType(expected: LIFXPacket.messageType, received: type) }
+        guard type == Message.messageType else {
+            throw Error.incorrectMessageType(expected: LIFXPacket.messageType, received: type)
+        }
         try container.decodeEmpty(count: 2)
         
         // Payload
