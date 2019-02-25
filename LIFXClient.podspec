@@ -6,12 +6,12 @@
 #
 Pod::Spec.new do |s|
   s.name                    = "LIFXClient"
-  s.version                 = "0.1.0"
+  s.version                 = "1.0.0"
   s.summary                 = "Alamofire based HTTP client for the Bittrex API."
   s.homepage                = "https://github.com/dclelland/LIFXClient"
   s.license                 = { :type => 'MIT' }
   s.author                  = { "Daniel Clelland" => "daniel.clelland@gmail.com" }
-  s.source                  = { :git => "https://github.com/dclelland/LIFXClient.git", :tag => "0.1.0" }
+  s.source                  = { :git => "https://github.com/dclelland/LIFXClient.git", :tag => "1.0.0" }
   s.platform                = :ios, '12.0'
   s.swift_version           = '4.2'
   
