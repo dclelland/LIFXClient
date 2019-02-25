@@ -27,23 +27,23 @@ public class LIFXConnection {
 
 extension LIFXConnection {
     
-    public func sendPacket<Request: LIFXEncodableMessage>(_ packet: LIFXPacket<Request>) -> Promise<Void> {
+    public func sendPacket<Message: LIFXEncodableMessage>(_ packet: LIFXPacket<Message>) -> Promise<Void> {
         return firstly {
             return connection.send(try LIFXEncoder.encode(packet))
         }
     }
     
-    public func receivePacket<Response: LIFXDecodableMessage>() -> Promise<LIFXPacket<Response>> {
+    public func receivePacket<Message: LIFXDecodableMessage>() -> Promise<LIFXPacket<Message>> {
         return connection.receive().map { data in
-            return try LIFXDecoder.decode(LIFXPacket<Response>.self, data: data)
+            return try LIFXDecoder.decode(LIFXPacket<Message>.self, data: data)
         }
     }
     
-    public func requestPacket<Request: LIFXEncodableMessage>(_ packet: LIFXPacket<Request>) -> Promise<LIFXPacket<Request.Response>> {
+    public func requestPacket<Message: LIFXEncodableMessage>(_ packet: LIFXPacket<Message>) -> Promise<LIFXPacket<Message.Response>> {
         return firstly {
             return connection.request(try LIFXEncoder.encode(packet))
         }.map { data in
-            return try LIFXDecoder.decode(LIFXPacket<Request.Response>.self, data: data)
+            return try LIFXDecoder.decode(LIFXPacket<Message.Response>.self, data: data)
         }
     }
     
@@ -51,18 +51,18 @@ extension LIFXConnection {
 
 extension LIFXConnection {
     
-    public func sendMessage<Request: LIFXEncodableMessage>(_ request: Request) -> Promise<Void> {
-        return sendPacket(LIFXPacket(tagged: target == 0, source: source, target: target, response: false, message: request))
+    public func sendMessage<Message: LIFXEncodableMessage>(_ message: Message) -> Promise<Void> {
+        return sendPacket(LIFXPacket(tagged: target == 0, source: source, target: target, response: false, message: message))
     }
     
-    public func receiveMessage<Response: LIFXDecodableMessage>() -> Promise<Response> {
+    public func receiveMessage<Message: LIFXDecodableMessage>() -> Promise<Message> {
         return receivePacket().map { packet in
             return packet.message
         }
     }
     
-    public func requestMessage<Request: LIFXEncodableMessage>(_ request: Request) -> Promise<Request.Response> {
-        return requestPacket(LIFXPacket(tagged: target == 0, source: source, target: target, response: true, message: request)).map { packet in
+    public func requestMessage<Message: LIFXEncodableMessage>(_ message: Message) -> Promise<Message.Response> {
+        return requestPacket(LIFXPacket(tagged: target == 0, source: source, target: target, response: true, message: message)).map { packet in
             return packet.message
         }
     }
