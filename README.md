@@ -57,5 +57,6 @@ client.light.setInfrared(brightness: Double)
 
 ## Wishlist
 
+- Double StateService response issue
 - Sort out discovery issue: Apple's Network framework doesn't support UDP broadcast packets: https://forums.developer.apple.com/thread/104076
 - macOS compatibility
