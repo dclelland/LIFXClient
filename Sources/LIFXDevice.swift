@@ -297,7 +297,7 @@ extension LIFXDevice {
     public func setPower(on: Bool) -> Promise<StatePower> {
         return requestMessage(
             SetPower(
-                level: on ? UInt16.max : UInt16.min
+                level: on ? .max : .min
             )
         )
     }

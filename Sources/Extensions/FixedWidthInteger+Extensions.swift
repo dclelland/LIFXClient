@@ -14,3 +14,11 @@ extension FixedWidthInteger {
     }
     
 }
+
+extension FixedWidthInteger {
+    
+    internal init<T: BinaryFloatingPoint>(interpolating source: T) {
+        self.init(source.interpolate(min: T(Self.min), max: T(Self.max)))
+    }
+    
+}
