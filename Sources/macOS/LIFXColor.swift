@@ -1,13 +1,15 @@
 //
-//  UIColor+Extensions.swift
+//  LIFXColor.swift
 //  LIFXClient
 //
 //  Created by Daniel Clelland on 21/02/19.
 //
 
-import Foundation
+import AppKit
 
-extension UIColor {
+public typealias LIFXColor = NSColor
+
+extension LIFXColor {
     
     public var red: CGFloat {
         var red: CGFloat = 0.0
@@ -29,7 +31,7 @@ extension UIColor {
     
 }
 
-extension UIColor {
+extension LIFXColor {
     
     public var hue: CGFloat {
         var hue: CGFloat = 0.0
