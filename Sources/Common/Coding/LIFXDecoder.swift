@@ -47,7 +47,7 @@ extension LIFXDecoder {
     internal func read<T>(_ type: T.Type) throws -> T {
         let data = try read(count: MemoryLayout<T>.size)
         return data.withUnsafeBytes { pointer in
-            return pointer.pointee
+            return pointer.baseAddress!.assumingMemoryBound(to: T.self).pointee
         }
     }
     

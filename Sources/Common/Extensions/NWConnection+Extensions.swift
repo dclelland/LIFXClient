@@ -27,6 +27,8 @@ extension NWConnection {
                     resolver.reject(error)
                 case .cancelled:
                     break
+                @unknown default:
+                    break
                 }
             }
             self.start(queue: queue)
