@@ -6,12 +6,12 @@
 #
 Pod::Spec.new do |s|
   s.name                    = "LIFXClient"
-  s.version                 = "1.1.0"
+  s.version                 = "1.1.1"
   s.summary                 = "iOS/macOS client for LIFX lightbulbs."
   s.homepage                = "https://github.com/dclelland/LIFXClient"
   s.license                 = { :type => 'MIT' }
   s.author                  = { "Daniel Clelland" => "daniel.clelland@gmail.com" }
-  s.source                  = { :git => "https://github.com/dclelland/LIFXClient.git", :tag => "1.1.0" }
+  s.source                  = { :git => "https://github.com/dclelland/LIFXClient.git", :tag => "1.1.1" }
   s.platform                = :ios, '12.0'
   s.swift_version           = '5.0'
   
