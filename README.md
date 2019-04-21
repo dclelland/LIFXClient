@@ -2,6 +2,8 @@
 
 Swift client for the LIFX UDP protocol, based on PromiseKit and Apple's Network framework.
 
+Currently in use on my macOS 3LED menu bar app: https://github.com/dclelland/3LED
+
 ## Links
 
 - LIFX LAN protocol: https://lan.developer.lifx.com
