@@ -1,6 +1,6 @@
 # LIFXClient
 
-Swift client for the LIFX UDP protocol, based on PromiseKit and Apple's Network framework.
+Swift client for the LIFX UDP protocol, based on PromiseKit and Apple's Network framework. Supports iOS and macOS.
 
 Currently in use on my macOS 3LED menu bar app: https://github.com/dclelland/3LED
 
@@ -55,4 +55,3 @@ client.light.setInfrared(brightness: Double)
 ## Wishlist
 
 - Sort out discovery issue: Apple's Network framework doesn't support UDP broadcast packets: https://forums.developer.apple.com/thread/104076
-- macOS compatibility
